@@ -5,8 +5,27 @@ import { careersSchema } from "./types/types"
 export type Career = z.infer<typeof careersSchema>
 
 const pool = new Pool({
-    connectionString: "postgres://postgres.example", // replace with full connection URL
+    connectionString: "postgres://postgres:postgres@localhost:5432/mydb",
 })
+
+async function createTable() {
+    const query = `
+    CREATE TABLE IF NOT EXISTS careers (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(30) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    contact BIGINT NOT NULL,
+    linkedin VARCHAR(255) NOT NULL )`
+    try {
+        const result = await pool.query(query)
+    } catch (e) {
+        console.log(e)
+        throw e
+    }
+    await createTable().catch((err) => {
+        console.log("error : " + err)
+    })
+}
 
 export async function createCareer(data: Career) {
     const validated = careersSchema.parse(data)
@@ -21,7 +40,16 @@ export async function createCareer(data: Career) {
         validated.contact,
         validated.linkedin,
     ]
-    const result = await pool.query(query, values)
+    let result
+    try {
+        result = await pool.query(query, values)
+    } catch (e) {
+        console.log(e)
+        throw e
+    }
+    if (!result) {
+        throw "The result is missing"
+    }
     return result.rows[0]
 }
 

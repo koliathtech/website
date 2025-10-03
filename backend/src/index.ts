@@ -2,22 +2,34 @@ import express from "express"
 import { api } from "./config"
 import { safeParse, z } from "zod"
 import { careersSchema } from "./types/types"
+import { createCareer } from "./db"
 const app = express()
 const port = 3000
 
-app.get(`${api}/careers`, (req, res) => {
+app.use(express.json())
+
+app.post("/careers", async (req, res) => {
     const body = careersSchema.safeParse(req.body)
 
     if (!body.success) {
         return res.status(400).json({
-            msg: "Invalid Details Sent ",
+            msg: z.treeifyError(body.error),
         })
     }
 
     const { name, email, contact, linkedin } = body.data
-
-    // Save to db  yet to add , send email etc
-    // If you want to be stricter add checks for email if it already exists in db
+    try {
+        const dbQuery = await createCareer({
+            name,
+            email,
+            contact,
+            linkedin,
+        })
+    } catch (e) {
+        res.status(500).json({
+            msg: "User already exists or Database went down",
+        })
+    }
 
     res.status(200).json({
         msg: "Career application received successfully",
