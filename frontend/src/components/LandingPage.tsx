@@ -24,14 +24,6 @@ export default function Home() {
                     </button>
                 </div>
             </section>
-
-            <footer className="bg-white text-gray-600 border-t border-gray-200">
-                <div className="max-w-5xl mx-auto py-12 px-4 text-center">
-                    <p className="text-sm">
-                        © 2025 Koliath Technology. All rights reserved.
-                    </p>
-                </div>
-            </footer>
         </div>
     )
 }
