@@ -8,10 +8,12 @@ const app = express()
 const port = 3000
 
 // CORS configuration
-app.use(cors({
-    origin: ["http://localhost:5173", "http://localhost:3000"], // Add your frontend URLs
-    credentials: true
-}))
+app.use(
+    cors({
+        origin: ["http://localhost:5173", "http://localhost:3000"],
+        credentials: true,
+    })
+)
 
 app.use(express.json())
 

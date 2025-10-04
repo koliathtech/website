@@ -21,8 +21,8 @@ const app = (0, express_1.default)();
 const port = 3000;
 // CORS configuration
 app.use((0, cors_1.default)({
-    origin: ["http://localhost:5173", "http://localhost:3000"], // Add your frontend URLs
-    credentials: true
+    origin: ["http://localhost:5173", "http://localhost:3000"],
+    credentials: true,
 }));
 app.use(express_1.default.json());
 app.post("/careers", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

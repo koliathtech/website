@@ -3,7 +3,7 @@ import Home from "./components/LandingPage"
 import BlogComponent from "./components/Blog"
 import Navbar from "./components/Navbar"
 import { About } from "./components/About"
-import CareersPage from "./pages/CareersPage"
+import CareersPage from "./components/Careers"
 const App: React.FC = () => {
     const [activeSection, setActiveSection] = useState("Home")
 
@@ -16,7 +16,7 @@ const App: React.FC = () => {
             case "About":
                 return <About></About>
             case "Careers":
-                return <CareersPage/>
+                return <CareersPage />
             default:
                 return <Home />
         }

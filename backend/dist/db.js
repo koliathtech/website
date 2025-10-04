@@ -63,6 +63,7 @@ function createCareer(data) {
         if (!result) {
             throw "The result is missing";
         }
+        console.log("Created");
         return result.rows[0];
     });
 }
