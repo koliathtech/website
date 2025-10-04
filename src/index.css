@@ -1,0 +1,5 @@
+ @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Small helper if you want line-clamp - enable plugin or add custom */
