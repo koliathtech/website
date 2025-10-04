@@ -1,321 +1,236 @@
+import React, { useState } from "react"
+import { ArrowRight, Calendar, Clock } from "lucide-react"
 
-import React, { useState } from 'react';
-import {
-  Clock,
-  Eye,
-  Heart,
-  MessageCircle,
-  Bookmark,
-  Calendar,
-  ArrowRight,
-  Search,
-  Menu,
-  X,
-} from 'lucide-react';
-
-// ----------------------- Types -----------------------
-interface Post {
-  id: number;
-  title: string;
-  excerpt: string;
-  image: string;
-  category: string;
-  author: string;
-  date: string;
-  readTime: string;
-  views: number;
-  likes: number;
-  comments: number;
+interface Blog {
+    id: number
+    title: string
+    content: string
+    date: string
+    readTime: string
+    image: string
 }
 
-// ----------------------- Blog Component -----------------------
-const Blog: React.FC = () => {
-  const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set());
-  const [bookmarkedPosts, setBookmarkedPosts] = useState<Set<number>>(new Set());
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('All');
+const AppleBlog: React.FC = () => {
+    const [selectedBlog, setSelectedBlog] = useState(0)
 
-  const posts: Post[] = [
-    {
-      id: 1,
-      title: 'Mastering React Hooks in 2025',
-      excerpt: 'Learn advanced React hooks techniques...',
-      image: 'https://via.placeholder.com/600x400',
-      category: 'Programming',
-      author: 'Ravi Kumar',
-      date: 'Oct 1, 2025',
-      readTime: '5 min read',
-      views: 1234,
-      likes: 100,
-      comments: 12,
-    },
-    {
-      id: 2,
-      title: 'Top 10 AI Tools for Developers',
-      excerpt: 'AI is changing development workflows...',
-      image: 'https://via.placeholder.com/600x400',
-      category: 'AI',
-      author: 'Priya Sharma',
-      date: 'Sep 28, 2025',
-      readTime: '7 min read',
-      views: 876,
-      likes: 75,
-      comments: 8,
-    },
-  ];
+    const blogs: Blog[] = [
+        {
+            id: 1,
+            title: "Introducing Our Revolutionary Product Line",
+            content: `We're excited to announce the launch of our newest product line, designed with innovation and simplicity at its core. After months of careful development and testing, we've created something truly special.
 
-  // ----------------------- Handlers -----------------------
-  const toggleLike = (id: number) => {
-    const newSet = new Set(likedPosts);
-    if (newSet.has(id)) newSet.delete(id);
-    else newSet.add(id);
-    setLikedPosts(newSet);
-  };
+Our team has worked tirelessly to ensure every detail meets our high standards. From the sleek design to the intuitive functionality, every aspect has been crafted with precision and care.
 
-  const toggleBookmark = (id: number) => {
-    const newSet = new Set(bookmarkedPosts);
-    if (newSet.has(id)) newSet.delete(id);
-    else newSet.add(id);
-    setBookmarkedPosts(newSet);
-  };
+This represents a new chapter in our journey, one that we're incredibly proud to share with you. The response from early testers has been overwhelmingly positive, and we can't wait for everyone to experience it.
 
-  // ----------------------- Components -----------------------
-  const Header: React.FC = () => (
-    <header className="w-full bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-      <div className="w-full px-6">
-        <div className="flex justify-between items-center py-4">
-          <div className="flex items-center">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center mr-3">
-              <span className="text-white font-bold text-xl">D</span>
-            </div>
-            <h1 className="text-2xl font-bold text-gray-900">DevBlog</h1>
-          </div>
+We believe in creating products that seamlessly integrate into your life, making everyday tasks simpler and more enjoyable. This launch embodies that philosophy completely.
 
-          <nav className="hidden md:flex space-x-8">
-            {['Home', 'Articles', 'Categories', 'About', 'Contact'].map((link) => (
-              <a
-                key={link}
-                href="#"
-                className="text-gray-700 hover:text-blue-600 transition font-medium"
-              >
-                {link}
-              </a>
-            ))}
-          </nav>
+Thank you for being part of our community. Your support and feedback continue to drive us forward, inspiring us to push boundaries and explore new possibilities.`,
+            date: "October 5, 2025",
+            readTime: "3 min read",
+            image: "https://images.unsplash.com/photo-1484788984921-03950022c9ef?w=1200&h=600&fit=crop",
+        },
+        {
+            id: 2,
+            title: "The Future of Design: Minimalism and Function",
+            content: `Design is more than aesthetics—it's about creating experiences that feel natural and effortless. We've always believed that the best design is the one you don't notice.
 
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={() => setShowSearch(!showSearch)}
-              className="p-2 hover:bg-gray-100 rounded-full transition"
-            >
-              <Search className="w-5 h-5 text-gray-600" />
-            </button>
+In today's fast-paced world, simplicity has become a luxury. We're committed to cutting through the noise and delivering products that respect your time and attention.
 
-            <button className="hidden md:block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
-              Write
-            </button>
+Our design philosophy centers on three core principles: clarity, efficiency, and elegance. Every element serves a purpose, and every interaction is intentional.
 
-            <button
-              className="md:hidden p-2 hover:bg-gray-100 rounded-full transition"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
+We've learned that removing complexity is often harder than adding features. It requires discipline and a deep understanding of what truly matters to our users.
 
-        {showSearch && (
-          <div className="pb-4">
-            <input
-              type="text"
-              placeholder="Search articles..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        )}
+Looking ahead, we're more excited than ever about the possibilities. Technology continues to evolve, but our commitment to thoughtful, user-centered design remains constant.`,
+            date: "September 28, 2025",
+            readTime: "4 min read",
+            image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=600&fit=crop",
+        },
+        {
+            id: 3,
+            title: "Building a Sustainable Tomorrow",
+            content: `Sustainability isn't just a buzzword for us—it's a responsibility we take seriously. Every decision we make considers the environmental impact for generations to come.
 
-        {menuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200">
-            <nav className="flex flex-col space-y-3">
-              {['Home', 'Articles', 'Categories', 'About', 'Contact'].map((link) => (
-                <a key={link} href="#" className="text-gray-700 hover:text-blue-600 transition">
-                  {link}
-                </a>
-              ))}
-            </nav>
-          </div>
-        )}
-      </div>
-    </header>
-  );
+We've implemented comprehensive recycling programs across our facilities and are constantly exploring new materials that reduce our carbon footprint without compromising quality.
 
-  const Footer: React.FC = () => (
-    <footer className="w-full bg-gray-900 text-white mt-16">
-      <div className="w-full px-6 py-12">
-        <div className="grid md:grid-cols-4 gap-8">
-          <div>
-            <div className="flex items-center mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center mr-3">
-                <span className="text-white font-bold text-xl">D</span>
-              </div>
-              <h4 className="text-xl font-bold">DevBlog</h4>
-            </div>
-            <p className="text-gray-400 text-sm">
-              Sharing knowledge and insights on modern web development.
-            </p>
-          </div>
-          <div>
-            <h5 className="font-semibold mb-4">Quick Links</h5>
-            <ul className="space-y-2 text-sm text-gray-400">
-              {['Home', 'About', 'Privacy Policy'].map((link) => (
-                <li key={link}>
-                  <a href="#" className="hover:text-white transition">{link}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h5 className="font-semibold mb-4">Categories</h5>
-            <ul className="space-y-2 text-sm text-gray-400">
-              {['Development', 'Design', 'Architecture'].map((cat) => (
-                <li key={cat}>
-                  <a href="#" className="hover:text-white transition">{cat}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h5 className="font-semibold mb-4">Connect</h5>
-            <ul className="space-y-2 text-sm text-gray-400">
-              {['Twitter', 'GitHub', 'LinkedIn'].map((link) => (
-                <li key={link}>
-                  <a href="#" className="hover:text-white transition">{link}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+Our commitment extends beyond our own operations. We work closely with suppliers to ensure they meet our strict environmental standards, creating a ripple effect throughout the industry.
 
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
-          <p>© 2025 DevBlog. All rights reserved. Made with ❤️ for developers</p>
-        </div>
-      </div>
-    </footer>
-  );
+Innovation and sustainability go hand in hand. We're investing heavily in research to develop new manufacturing processes that are both efficient and environmentally friendly.
 
-  const BlogCard: React.FC<{ post: Post }> = ({ post }) => {
-    const liked = likedPosts.has(post.id);
-    const bookmarked = bookmarkedPosts.has(post.id);
+This is a journey, not a destination. While we're proud of the progress we've made, we know there's always more work to be done. Together, we can make a difference.`,
+            date: "September 15, 2025",
+            readTime: "5 min read",
+            image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200&h=600&fit=crop",
+        },
+    ]
+
+    const currentBlog = blogs[selectedBlog]
 
     return (
-      <article className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group w-full">
-        <div className="relative h-52 overflow-hidden">
-          <img
-            src={post.image}
-            alt={post.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-          <button
-            onClick={() => toggleBookmark(post.id)}
-            className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-md hover:bg-gray-100 transition"
-          >
-            <Bookmark
-              className={`w-4 h-4 ${bookmarked ? 'fill-blue-600 text-blue-600' : 'text-gray-600'}`}
-            />
-          </button>
-        </div>
+        <div className="min-h-screen bg-white">
+            {/* Header */}
+            <header className="border-b border-gray-200">
+                <div className="max-w-7xl mx-auto px-6 py-4">
+                    <h1 className="text-2xl font-semibold text-gray-900">
+                        Company Blog
+                    </h1>
+                </div>
+            </header>
 
-        <div className="p-5 md:p-6">
-          <div className="flex items-center flex-wrap gap-3 text-sm text-gray-600 mb-3">
-            <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">
-              {post.category}
-            </span>
-            <span className="flex items-center">
-              <Clock className="w-4 h-4 mr-1" /> {post.readTime}
-            </span>
-          </div>
+            <div className="max-w-7xl mx-auto px-6 py-12">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+                    {/* Sidebar */}
+                    <aside className="lg:col-span-1">
+                        <div className="lg:sticky lg:top-8 space-y-2">
+                            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
+                                Recent Posts
+                            </h2>
+                            {blogs.map((blog, index) => (
+                                <button
+                                    key={blog.id}
+                                    onClick={() => setSelectedBlog(index)}
+                                    className={`w-full text-left p-4 rounded-lg transition-all duration-200 group ${
+                                        selectedBlog === index
+                                            ? "bg-black text-white"
+                                            : "hover:bg-gray-50 text-gray-700"
+                                    }`}
+                                >
+                                    <div className="flex items-start justify-between">
+                                        <div className="flex-1">
+                                            <h3
+                                                className={`font-medium mb-1 line-clamp-2 ${
+                                                    selectedBlog === index
+                                                        ? "text-white"
+                                                        : "text-gray-900"
+                                                }`}
+                                            >
+                                                {blog.title}
+                                            </h3>
+                                            <p
+                                                className={`text-sm ${
+                                                    selectedBlog === index
+                                                        ? "text-gray-300"
+                                                        : "text-gray-500"
+                                                }`}
+                                            >
+                                                {blog.date}
+                                            </p>
+                                        </div>
+                                        <ArrowRight
+                                            className={`w-5 h-5 ml-2 transition-transform group-hover:translate-x-1 flex-shrink-0 ${
+                                                selectedBlog === index
+                                                    ? "text-white"
+                                                    : "text-gray-400"
+                                            }`}
+                                        />
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    </aside>
 
-          <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 cursor-pointer transition line-clamp-2">
-            {post.title}
-          </h3>
+                    {/* Main Content */}
+                    <main className="lg:col-span-3">
+                        <article className="animate-fadeIn">
+                            {/* Hero Image */}
+                            <div className="relative w-full h-96 mb-8 rounded-2xl overflow-hidden bg-gray-100">
+                                <img
+                                    src={currentBlog.image}
+                                    alt={currentBlog.title}
+                                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                                />
+                            </div>
 
-          <p className="text-gray-600 mb-4 text-sm md:text-base line-clamp-2">{post.excerpt}</p>
+                            {/* Meta Information */}
+                            <div className="flex items-center space-x-6 text-sm text-gray-500 mb-6">
+                                <span className="flex items-center">
+                                    <Calendar className="w-4 h-4 mr-2" />
+                                    {currentBlog.date}
+                                </span>
+                                <span className="flex items-center">
+                                    <Clock className="w-4 h-4 mr-2" />
+                                    {currentBlog.readTime}
+                                </span>
+                            </div>
 
-          <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
-            <span className="flex items-center">
-              <Eye className="w-4 h-4 mr-1" /> {post.views}
-            </span>
+                            {/* Title */}
+                            <h1 className="text-4xl md:text-5xl font-semibold text-gray-900 mb-8 leading-tight">
+                                {currentBlog.title}
+                            </h1>
 
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => toggleLike(post.id)}
-                className="flex items-center hover:text-red-500 transition"
-              >
-                <Heart className={`w-4 h-4 mr-1 ${liked ? 'fill-red-500 text-red-500' : ''}`} />
-                {post.likes + (liked ? 1 : 0)}
-              </button>
-              <span className="flex items-center">
-                <MessageCircle className="w-4 h-4 mr-1" /> {post.comments}
-              </span>
+                            {/* Content */}
+                            <div className="prose prose-lg max-w-none">
+                                {currentBlog.content
+                                    .split("\n\n")
+                                    .map((paragraph, index) => (
+                                        <p
+                                            key={index}
+                                            className="text-gray-700 leading-relaxed mb-6 text-lg"
+                                            style={{
+                                                animationDelay: `${
+                                                    index * 100
+                                                }ms`,
+                                            }}
+                                        >
+                                            {paragraph}
+                                        </p>
+                                    ))}
+                            </div>
+
+                            {/* Divider */}
+                            <div className="mt-12 pt-12 border-t border-gray-200">
+                                <div className="flex items-center justify-between">
+                                    <button
+                                        disabled={selectedBlog === 0}
+                                        onClick={() =>
+                                            setSelectedBlog(selectedBlog - 1)
+                                        }
+                                        className="flex items-center text-gray-900 hover:text-gray-600 transition disabled:opacity-30 disabled:cursor-not-allowed group"
+                                    >
+                                        <ArrowRight className="w-5 h-5 mr-2 rotate-180 transition-transform group-hover:-translate-x-1" />
+                                        <span className="font-medium">
+                                            Previous
+                                        </span>
+                                    </button>
+                                    <button
+                                        disabled={
+                                            selectedBlog === blogs.length - 1
+                                        }
+                                        onClick={() =>
+                                            setSelectedBlog(selectedBlog + 1)
+                                        }
+                                        className="flex items-center text-gray-900 hover:text-gray-600 transition disabled:opacity-30 disabled:cursor-not-allowed group"
+                                    >
+                                        <span className="font-medium">
+                                            Next
+                                        </span>
+                                        <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                    </main>
+                </div>
             </div>
-          </div>
 
-          <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full" />
-              <span className="text-sm font-medium text-gray-700">{post.author}</span>
-            </div>
-            <span className="text-sm text-gray-500">{post.date}</span>
-          </div>
+            <style>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-out;
+        }
+      `}</style>
         </div>
-      </article>
-    );
-  };
+    )
+}
 
-  // ----------------------- Layout -----------------------
-  return (
-    <div className="bg-gray-50 min-h-screen">
-      <Header />
-      <main className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-4 gap-8">
-        {/* Sidebar */}
-        <div className="md:col-span-1">
-          <div className="space-y-8">
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <h3 className="text-lg font-semibold mb-4 border-b pb-2">Categories</h3>
-              <ul className="space-y-2">
-                {['All', 'Technology', 'Programming', 'Design', 'AI', 'Lifestyle'].map((cat) => (
-                  <li key={cat}>
-                    <button
-                      onClick={() => setSelectedCategory(cat)}
-                      className={`block w-full text-left px-3 py-2 rounded-lg font-medium transition ${
-                        selectedCategory === cat
-                          ? 'bg-blue-600 text-white'
-                          : 'hover:bg-blue-50 text-gray-700'
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="md:col-span-3 space-y-8">
-          {posts.map((post) => (
-            <BlogCard key={post.id} post={post} />
-          ))}
-        </div>
-      </main>
-      <Footer />
-    </div>
-  );
-};
-
-export default Blog;
+export default AppleBlog
