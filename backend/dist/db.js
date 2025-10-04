@@ -60,8 +60,9 @@ function createCareer(data) {
             console.log(e);
             throw e;
         }
-        if (!result)
-            return;
+        if (!result) {
+            throw "The result is missing";
+        }
         return result.rows[0];
     });
 }

@@ -11,3 +11,4 @@ export const careersSchema = z.object({
         .string()
         .min(5, { message: "LinkedIn URL must be at least 5 characters long" }),
 })
+export type CareersFormData = z.infer<typeof careersSchema>;

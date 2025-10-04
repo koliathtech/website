@@ -1,10 +1,17 @@
 import express from "express"
+import cors from "cors"
 import { api } from "./config"
 import { safeParse, z } from "zod"
 import { careersSchema } from "./types/types"
 import { createCareer } from "./db"
 const app = express()
 const port = 3000
+
+// CORS configuration
+app.use(cors({
+    origin: ["http://localhost:5173", "http://localhost:3000"], // Add your frontend URLs
+    credentials: true
+}))
 
 app.use(express.json())
 
@@ -18,6 +25,7 @@ app.post("/careers", async (req, res) => {
     }
 
     const { name, email, contact, linkedin } = body.data
+    console.log(body.data)
     try {
         const dbQuery = await createCareer({
             name,
