@@ -4,6 +4,7 @@ import BlogComponent from "./components/Blog"
 import Navbar from "./components/Navbar"
 import { About } from "./components/About"
 import CareersPage from "./components/Careers"
+import ServicePage from "./components/ServicePage"
 const App: React.FC = () => {
     const [activeSection, setActiveSection] = useState("Home")
 
@@ -17,10 +18,14 @@ const App: React.FC = () => {
                 return <About></About>
             case "Careers":
                 return <CareersPage />
+            case "Service": 
+                return <ServicePage />
             default:
                 return <Home />
         }
     }
+
+    
 
     return (
         <div className="min-h-screen bg-white">

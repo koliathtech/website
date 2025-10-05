@@ -8,7 +8,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ activeSection, onSectionChange }) => {
     const [hoveredSection, setHoveredSection] = useState<string | null>(null)
 
-    const sections = ["Home", "Blog", "Careers", "About"]
+    const sections = ["Home", "Blog", "Careers", "About", "Service"]
 
     return (
         <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
