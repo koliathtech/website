@@ -1,5 +1,7 @@
 import React, { useState } from "react"
-import { Code, Globe, Smartphone, Database, Shield, Zap } from "lucide-react"
+import { Brain, Zap, Smartphone, Database, Shield, BarChart2 } from "lucide-react"
+import { Link } from "react-router-dom"
+import { LEGAL_ACCOUNT_ERASURE, LEGAL_PRIVACY, LEGAL_TERMS } from "../lib/legalRoutes"
 
 interface Service {
     id: number
@@ -15,74 +17,74 @@ const ServicesPage: React.FC = () => {
     const services: Service[] = [
         {
             id: 1,
-            icon: <Code size={32} />,
-            title: "Custom Software Development",
+            icon: <Brain size={32} />,
+            title: "Generative AI Development",
             description:
-                "Tailored software solutions designed to meet your unique business requirements and drive operational efficiency.",
+                "Design and deploy production-ready LLM-powered applications tailored to your business workflows and domain knowledge.",
             features: [
-                "Enterprise Applications",
-                "Legacy System Modernization",
-                "API Development",
+                "Custom LLM Fine-tuning",
+                "RAG Architectures",
+                "AI Agents & Orchestration",
             ],
         },
         {
             id: 2,
-            icon: <Globe size={32} />,
-            title: "Web Development",
+            icon: <BarChart2 size={32} />,
+            title: "Machine Learning Engineering",
             description:
-                "Modern, responsive websites and web applications built with cutting-edge technologies for optimal performance.",
+                "End-to-end ML model development—from data exploration and feature engineering to model training, evaluation, and deployment.",
             features: [
-                "Full-Stack Development",
-                "E-commerce Solutions",
-                "Progressive Web Apps",
+                "Predictive Modeling",
+                "Computer Vision",
+                "NLP & Text Analytics",
             ],
         },
         {
             id: 3,
             icon: <Smartphone size={32} />,
-            title: "Mobile App Development",
+            title: "AI-Powered App Development",
             description:
-                "Native and cross-platform mobile applications that deliver exceptional user experiences across all devices.",
+                "Build intelligent mobile and web applications with embedded ML capabilities for smarter, more intuitive user experiences.",
             features: [
-                "iOS & Android",
-                "Cross-Platform Solutions",
-                "UI/UX Design",
+                "On-device ML Inference",
+                "Personalization Engines",
+                "Conversational Interfaces",
             ],
         },
         {
             id: 4,
             icon: <Database size={32} />,
-            title: "Cloud Solutions",
+            title: "Data Engineering & MLOps",
             description:
-                "Scalable cloud infrastructure and migration services to enhance your business agility and reduce costs.",
+                "Build robust data pipelines and MLOps infrastructure to continuously train, monitor, and improve your AI systems at scale.",
             features: [
-                "Cloud Migration",
-                "Infrastructure Management",
-                "DevOps Services",
+                "Data Pipeline Automation",
+                "Model Monitoring",
+                "CI/CD for ML",
             ],
         },
         {
             id: 5,
             icon: <Shield size={32} />,
-            title: "Cybersecurity",
+            title: "Responsible AI & Compliance",
             description:
-                "Comprehensive security solutions to protect your digital assets and ensure compliance with industry standards.",
+                "Ensure your AI solutions meet ethical standards, regulatory requirements, and data privacy best practices.",
             features: [
-                "Security Audits",
-                "Penetration Testing",
-                "Compliance Management",
+                "Bias Auditing",
+                "GDPR & HIPAA Compliance",
+                "Explainability Frameworks",
             ],
         },
         {
             id: 6,
             icon: <Zap size={32} />,
-            title: "IT Consulting",
+            title: "AI Strategy Consulting",
             description:
-                "Strategic technology consulting to help you make informed decisions and achieve your business objectives.",
+                "Navigate the AI landscape with expert guidance. We help you identify high-impact use cases and build a roadmap for intelligent transformation.",
             features: [
-                "Digital Transformation",
-                "Technology Strategy",
-                "Process Optimization",
+                "AI Readiness Assessment",
+                "Use Case Discovery",
+                "Technology Roadmapping",
             ],
         },
     ]
@@ -100,11 +102,10 @@ const ServicesPage: React.FC = () => {
             >
                 <div className="max-w-3xl mx-auto">
                     <h2 className="text-5xl font-bold text-stone-50 mb-4 animate-fadeIn">
-                        Our Services
+                        AI Services
                     </h2>
                     <p className="text-xl text-neutral-200 leading-relaxed animate-fadeIn delay-200">
-                        Empowering businesses with innovative technology
-                        solutions
+                        Intelligent solutions engineered for the age of machine learning
                     </p>
                 </div>
             </section>
@@ -115,29 +116,30 @@ const ServicesPage: React.FC = () => {
                     {services.map((service) => (
                         <div
                             key={service.id}
-                            className={`bg-slate-900 border border-sky-950 rounded-xl p-8 cursor-pointer transform transition-all duration-300 ${
+                            className={`border-t border-sky-900/50 pt-8 cursor-pointer transition-all duration-300 group ${
                                 activeService === service.id
-                                    ? "shadow-xl -translate-y-2 border-gray-900"
-                                    : "hover:shadow-lg hover:-translate-y-1"
+                                    ? "border-blue-500"
+                                    : "hover:border-slate-500"
                             }`}
                             onMouseEnter={() => setActiveService(service.id)}
                             onMouseLeave={() => setActiveService(null)}
                         >
-                            <div className="text-blue-500 mb-6">
+                            <div className="text-blue-400 mb-5 group-hover:scale-110 transition-transform inline-block">
                                 {service.icon}
                             </div>
-                            <h3 className="text-slate-200 text-2xl font-semibold mb-3">
+                            <h3 className="text-slate-100 text-xl font-semibold mb-3">
                                 {service.title}
                             </h3>
-                            <p className="text-gray-400 mb-4">
+                            <p className="text-gray-400 mb-4 text-sm leading-relaxed">
                                 {service.description}
                             </p>
-                            <ul className="space-y-2">
+                            <ul className="space-y-1">
                                 {service.features.map((feature, index) => (
                                     <li
                                         key={index}
-                                        className="text-gray-400 text-sm border-t border-gray-100 pt-2"
+                                        className="text-gray-500 text-sm flex items-center gap-2"
                                     >
+                                        <span className="w-1 h-1 rounded-full bg-blue-500 flex-shrink-0"></span>
                                         {feature}
                                     </li>
                                 ))}
@@ -151,11 +153,10 @@ const ServicesPage: React.FC = () => {
             <section className="bg-gray-900 text-white py-32 text-center">
                 <div className="max-w-3xl mx-auto">
                     <h2 className="text-4xl font-bold mb-4 animate-fadeIn">
-                        Ready to Transform Your Business?
+                        Ready to Build Intelligent Products?
                     </h2>
                     <p className="text-xl text-gray-400 mb-8 animate-fadeIn delay-200">
-                        Let's discuss how our services can help you achieve your
-                        goals
+                        Let's discuss how our AI expertise can drive real outcomes for your business.
                     </p>
                     <button className="bg-blue-600 text-slate-50 px-10 py-4 font-semibold rounded-md hover:bg-slate-800 transition-all animate-fadeIn delay-100">
                         Get in Touch
@@ -165,8 +166,19 @@ const ServicesPage: React.FC = () => {
 
             {/* Footer */}
             <footer className="border-t border-sky-950 py-8 text-center">
-                <p className="text-gray-400 text-sm">
-                    ©️ 2025 Koliath Technology. All rights reserved.
+                <p className="text-gray-400 text-sm mb-3">
+                    ©️ {new Date().getFullYear()} Koliath Technology. All rights reserved.
+                </p>
+                <p className="text-sm flex flex-wrap justify-center gap-x-4 gap-y-1">
+                    <Link to={LEGAL_PRIVACY} className="text-gray-300 underline">
+                        Privacy
+                    </Link>
+                    <Link to={LEGAL_TERMS} className="text-gray-300 underline">
+                        Terms
+                    </Link>
+                    <Link to={LEGAL_ACCOUNT_ERASURE} className="text-gray-300 underline">
+                        Account erasure
+                    </Link>
                 </p>
             </footer>
         </div>

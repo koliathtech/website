@@ -1,40 +1,38 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Card } from "../components/ui/card"
-import { Rocket, Users, Heart, TrendingUp, Globe, Zap } from "lucide-react"
+import { Rocket, Brain, Zap, Database, Smartphone, Shield } from "lucide-react"
 
 const benefits = [
   {
     icon: Rocket,
-    title: "Innovation First",
-    description: "Work on cutting-edge projects that push the boundaries of technology and make a real impact.",
+    title: "AI Strategy & Consulting",
+    description: "Align your business goals with cutting-edge AI technologies to drive innovation and growth.",
   },
   {
-    icon: Users,
-    title: "Collaborative Culture",
-    description: "Join a diverse team of talented individuals who support and inspire each other every day.",
-  },
-  {
-    icon: Heart,
-    title: "Work-Life Balance",
-    description:
-      "Flexible schedules, remote work options, and generous PTO to help you thrive both professionally and personally.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Career Growth",
-    description: "Continuous learning opportunities, mentorship programs, and clear paths for advancement.",
-  },
-  {
-    icon: Globe,
-    title: "Global Impact",
-    description: "Contribute to products and services used by millions of people around the world.",
+    icon: Brain,
+    title: "Machine Learning Models",
+    description: "Custom-trained ML models designed to solve your specific business challenges and optimize workflows.",
   },
   {
     icon: Zap,
-    title: "Competitive Package",
-    description: "Industry-leading compensation, equity options, comprehensive health benefits, and more.",
+    title: "Generative AI Integration",
+    description: "Incorporate powerful LLMs and generative capabilities into your existing products and services.",
+  },
+  {
+    icon: Database,
+    title: "Data Engineering",
+    description: "Build robust, scalable data pipelines to fuel your AI initiatives with clean, reliable data.",
+  },
+  {
+    icon: Smartphone,
+    title: "Intelligent App Development",
+    description: "Develop smart, intuitive mobile and web applications powered by predictive intelligence.",
+  },
+  {
+    icon: Shield,
+    title: "Secure & Compliant AI",
+    description: "Ensure your AI solutions meet the highest standards of data privacy, security, and ethical use.",
   },
 ]
 
@@ -70,9 +68,9 @@ export function WhyWorkWithUs() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-balance">Why Work With Us</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-balance">Our AI Capabilities</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
-            We believe in creating an environment where talent thrives and innovation flourishes.
+            We transform complex problems into intelligent, scalable solutions for the modern enterprise.
           </p>
         </motion.div>
 
@@ -87,15 +85,15 @@ export function WhyWorkWithUs() {
             const Icon = benefit.icon
             return (
               <motion.div key={index} variants={itemVariants}>
-                <Card className="p-6 h-full bg-card border-border hover:border-primary/50 transition-colors duration-300">
+                <div className="p-6 h-full border-l-2 border-primary/20 hover:border-primary transition-colors duration-300">
                   <div className="flex flex-col h-full">
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                    <div className="w-12 h-12 rounded-lg bg-primary/5 flex items-center justify-center mb-4">
                       <Icon className="w-6 h-6 text-primary" />
                     </div>
                     <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
                     <p className="text-muted-foreground leading-relaxed">{benefit.description}</p>
                   </div>
-                </Card>
+                </div>
               </motion.div>
             )
           })}
