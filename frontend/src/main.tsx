@@ -4,12 +4,15 @@ import { BrowserRouter } from "react-router-dom"
 import "./index.css"
 import App from "./App.tsx"
 import { AuthProvider } from "./lib/auth"
+import { ConsentProvider } from "./lib/ConsentProvider"
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <BrowserRouter>
             <AuthProvider>
-                <App />
+                <ConsentProvider>
+                    <App />
+                </ConsentProvider>
             </AuthProvider>
         </BrowserRouter>
     </StrictMode>

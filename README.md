@@ -16,6 +16,8 @@ Adverts Rewards, and Diabetic Buddy.
 | `/` | Company homepage |
 | `/products` | Product briefs for every Koliath app |
 | `/reward` | Google login + points dashboard + gift catalog |
+| `/privacy` | Privacy Policy (FingerprintJS, cookies, account data) |
+| `/terms` | Terms of Use |
 | `/service`, `/about`, `/careers`, `/blog` | Studio pages |
 
 `/rewards` and `/referrals` redirect to the same reward experience.
@@ -75,11 +77,23 @@ npm run dev
 
 ## Production (koliath.in)
 
+See **[DEPLOY.md](./DEPLOY.md)** for the full runbook (required `VITE_API_BASE`,
+`DATABASE_URL`, `APP_WEBHOOK_SECRET`, dummy CI build, and secret handling).
+
 1. Set `VITE_API_BASE` to an **https://** origin (for example `https://koliath.in` when `/api` is reverse-proxied on the same host, or `https://api.koliath.in` for a subdomain). Production builds fail if this is missing, `http://`, or loopback.
 2. Build frontend: `cd frontend && npm run build` → serve `dist/` on the domain.
 3. Run backend behind HTTPS (Node, Docker, or Cloud Run) with `NODE_ENV=production`.
-4. Set remaining env vars from `.env.example` files; never commit `.env` files or secrets.
+4. Set remaining env vars from `.env.example` files; never commit `.env` files or secrets. Production backend refuses to boot without `DATABASE_URL` and `APP_WEBHOOK_SECRET`.
 5. Point `CORS_ORIGINS` at `https://koliath.in,https://www.koliath.in`.
+
+CI proves a production `vite build` with dummy `VITE_API_BASE=https://example.com` (not a secret).
+
+## Privacy and tracking consent
+
+FingerprintJS and referral visit tracking are **off until the visitor accepts**
+the site-wide consent banner. Rejecting tracking still allows browsing and
+Google Sign-In. Policies: `/privacy`, `/terms`. Cookie settings in the footer
+re-opens the banner.
 
 ## Security practices included
 
@@ -89,6 +103,8 @@ npm run dev
 - Qualification and register endpoints require webhook secret in production
 - Env-based DB URL (no hardcoded production credentials)
 - Frontend API origin from `VITE_API_BASE` (HTTPS required in production; no localhost fallback)
+- Production backend requires `DATABASE_URL` and `APP_WEBHOOK_SECRET` (no empty defaults)
+- FingerprintJS / referral tracking only after explicit consent
 - Parameterized SQL only
 
 ## Linking mobile apps

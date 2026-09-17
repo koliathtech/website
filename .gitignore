@@ -7,3 +7,15 @@ node_modules/
 .env.*
 !.env.example
 
+# Build artifacts (never commit compiled output)
+backend/dist/
+frontend/dist/
+**/dist/
+*.tsbuildinfo
+
+# Local scratch / OS
+**/scratch_db_setup.js
+.DS_Store
+**/.DS_Store
+
+

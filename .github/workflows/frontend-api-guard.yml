@@ -1,11 +1,11 @@
-name: Frontend API shipping bar
+name: Frontend shipping bar
 
 on:
   push:
   pull_request:
 
 jobs:
-  api-base-guard:
+  shipping-bar:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -15,7 +15,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
       - name: Forbid hardcoded localhost API bases in frontend/src
         run: node scripts/guard-no-localhost.mjs
       - name: API origin resolver tests
         run: node --experimental-strip-types --test scripts/resolve-api-root.test.ts
+      - name: Consent and FingerprintJS gating tests
+        run: node --experimental-strip-types --test scripts/consent-fingerprint.test.ts
+      - name: Install frontend dependencies
+        run: npm ci
+      - name: Production Vite build
+        env:
+          VITE_API_BASE: https://example.com
+        run: npm run build
+      - name: Production bundle must not contain localhost:3000
+        run: |
+          if grep -R -F -n -- 'localhost:3000' dist; then
+            echo "Production bundle contains localhost:3000" >&2
+            exit 1
+          fi
+          grep -R -F -q -- 'https://example.com' dist/assets/*.js

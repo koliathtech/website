@@ -8,6 +8,8 @@ import ServicePage from "./components/ServicePage"
 import DiabeticAppPage from "./components/DiabeticAppPage"
 import RewardPage from "./components/RewardPage"
 import ProductsPage from "./components/ProductsPage"
+import { PrivacyPage, TermsPage } from "./components/LegalPages"
+import { ConsentBanner } from "./components/ConsentBanner"
 import { useReferralTracker } from "./hooks/useReferralTracker"
 
 const App: React.FC = () => {
@@ -28,10 +30,13 @@ const App: React.FC = () => {
                     <Route path="/reward" element={<RewardPage />} />
                     <Route path="/rewards" element={<RewardPage />} />
                     <Route path="/referrals" element={<RewardPage />} />
+                    <Route path="/privacy" element={<PrivacyPage />} />
+                    <Route path="/terms" element={<TermsPage />} />
                     <Route path="*" element={<Home />} />
                 </Routes>
             </main>
             <SiteFooter />
+            <ConsentBanner />
         </div>
     )
 }

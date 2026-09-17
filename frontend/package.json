@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "guard:no-localhost": "node scripts/guard-no-localhost.mjs",
     "test:api-config": "node --experimental-strip-types --test scripts/resolve-api-root.test.ts",
-    "prebuild": "npm run guard:no-localhost && npm run test:api-config"
+    "test:consent": "node --experimental-strip-types --test scripts/consent-fingerprint.test.ts",
+    "prebuild": "npm run guard:no-localhost && npm run test:api-config && npm run test:consent"
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^5.2.0",

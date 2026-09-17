@@ -18,8 +18,10 @@ export const config = {
         isProd ? undefined : "postgres://postgres:postgres@localhost:5433/mydb"
     ),
     googleClientId: process.env.GOOGLE_CLIENT_ID ?? "",
-    /** Shared secret for trusted app backends (Sapient, Adverts, Diabetic) to post qualification events. */
-    appWebhookSecret: process.env.APP_WEBHOOK_SECRET ?? "",
+    /** Shared secret for trusted app backends. Required in production. */
+    appWebhookSecret: isProd
+        ? required("APP_WEBHOOK_SECRET")
+        : (process.env.APP_WEBHOOK_SECRET ?? ""),
     corsOrigins: (process.env.CORS_ORIGINS ?? "http://localhost:5173,https://koliath.in,https://www.koliath.in")
         .split(",")
         .map((s) => s.trim())

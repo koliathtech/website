@@ -3,6 +3,7 @@ import { WhyWorkWithUs } from "./why-work-with-us"
 import { ProductsShowcase } from "./ProductsPage"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
+import { CookieSettingsButton } from "./ConsentBanner"
 
 const sectionVariants = {
     hidden: { opacity: 0, y: 40 },
@@ -101,8 +102,21 @@ export function SiteFooter() {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="font-semibold text-[var(--ink)] mb-4">Contact</h4>
+                        <h4 className="font-semibold text-[var(--ink)] mb-4">Legal</h4>
                         <ul className="space-y-2">
+                            <li>
+                                <Link to="/privacy" className="hover:text-[var(--ink)]">
+                                    Privacy Policy
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/terms" className="hover:text-[var(--ink)]">
+                                    Terms of Use
+                                </Link>
+                            </li>
+                            <li>
+                                <CookieSettingsButton />
+                            </li>
                             <li>
                                 <a href="mailto:hello@koliath.in" className="hover:text-[var(--ink)]">
                                     hello@koliath.in
@@ -116,8 +130,17 @@ export function SiteFooter() {
                         </ul>
                     </div>
                 </div>
-                <div className="pt-8 border-t border-[var(--line)] text-sm">
-                    © {new Date().getFullYear()} Koliath Technology. All rights reserved.
+                <div className="pt-8 border-t border-[var(--line)] text-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <p>© {new Date().getFullYear()} Koliath Technology. All rights reserved.</p>
+                    <p className="flex flex-wrap gap-x-4 gap-y-1">
+                        <Link to="/privacy" className="hover:text-[var(--ink)] underline">
+                            Privacy
+                        </Link>
+                        <Link to="/terms" className="hover:text-[var(--ink)] underline">
+                            Terms
+                        </Link>
+                        <CookieSettingsButton underline />
+                    </p>
                 </div>
             </div>
         </footer>
