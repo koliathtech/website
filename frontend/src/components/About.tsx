@@ -4,12 +4,12 @@ export const About: React.FC = () => (
             {/* Hero Section */}
             <div className="text-center mb-20">
                 <h1 className="text-5xl md:text-6xl font-semibold text-gray-900 mb-6 leading-tight">
-                    We build technology that matters
+                    We build AI that makes a difference
                 </h1>
                 <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                    Founded in 2020, Koliath Technology has been at the
-                    forefront of innovation, creating solutions that transform
-                    industries and improve lives around the world.
+                    Founded in 2020, Koliath Technology is an AI product studio
+                    at the frontier of machine intelligence—turning complex data
+                    into products that transform industries and improve lives.
                 </p>
             </div>
 
@@ -21,16 +21,16 @@ export const About: React.FC = () => (
                             Our Mission
                         </h2>
                         <p className="text-gray-600 leading-relaxed mb-4">
-                            We believe technology should be accessible,
-                            intuitive, and transformative. Our mission is to
-                            create products that seamlessly integrate into
-                            people's lives while pushing the boundaries of
-                            what's possible.
+                            We believe artificial intelligence should be
+                            accessible, trustworthy, and genuinely useful. Our
+                            mission is to architect and deliver AI-native
+                            products that solve real problems for real people.
                         </p>
                         <p className="text-gray-600 leading-relaxed">
-                            Every day, we work to bridge the gap between complex
-                            technology and simple user experiences, ensuring our
-                            solutions are both powerful and easy to use.
+                            Every day, we bridge the gap between cutting-edge
+                            research and production-ready software—ensuring the
+                            most advanced ML techniques translate into tangible
+                            business outcomes.
                         </p>
                     </div>
                     <div className="h-96 bg-gray-100 rounded-2xl overflow-hidden">
@@ -48,82 +48,37 @@ export const About: React.FC = () => (
                 <h2 className="text-3xl font-semibold text-gray-900 mb-12 text-center">
                     Our Values
                 </h2>
-                <div className="grid md:grid-cols-3 gap-8">
-                    <div className="p-8 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
-                        <div className="w-12 h-12 bg-black rounded-xl mb-6 flex items-center justify-center">
-                            <svg
-                                className="w-6 h-6 text-white"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                                />
-                            </svg>
-                        </div>
+                <div className="grid md:grid-cols-3 gap-10">
+                    <div className="border-l-2 border-blue-200 hover:border-blue-500 pl-6 py-2 transition-colors duration-300">
                         <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                            Innovation First
+                            Research-Driven
                         </h3>
                         <p className="text-gray-600 leading-relaxed">
-                            We constantly challenge ourselves to think
-                            differently and explore new possibilities that push
-                            the industry forward.
+                            We ground every product decision in peer-reviewed ML
+                            research, turning the latest academic breakthroughs
+                            into practical, deployable solutions.
                         </p>
                     </div>
 
-                    <div className="p-8 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
-                        <div className="w-12 h-12 bg-black rounded-xl mb-6 flex items-center justify-center">
-                            <svg
-                                className="w-6 h-6 text-white"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                                />
-                            </svg>
-                        </div>
+                    <div className="border-l-2 border-blue-200 hover:border-blue-500 pl-6 py-2 transition-colors duration-300">
                         <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                            People Centered
+                            Human-Centered AI
                         </h3>
                         <p className="text-gray-600 leading-relaxed">
-                            Our products are designed with empathy, always
-                            keeping the end user's needs and experiences at the
-                            heart of everything we create.
+                            Great AI is invisible. We design intelligent systems
+                            that feel natural and intuitive, amplifying human
+                            capability without adding complexity.
                         </p>
                     </div>
 
-                    <div className="p-8 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
-                        <div className="w-12 h-12 bg-black rounded-xl mb-6 flex items-center justify-center">
-                            <svg
-                                className="w-6 h-6 text-white"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                            </svg>
-                        </div>
+                    <div className="border-l-2 border-blue-200 hover:border-blue-500 pl-6 py-2 transition-colors duration-300">
                         <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                            Quality Always
+                            Relentless Quality
                         </h3>
                         <p className="text-gray-600 leading-relaxed">
-                            We never compromise on quality. Every detail
-                            matters, and we're committed to delivering
-                            excellence in every project we undertake.
+                            From model accuracy to API latency, we hold our
+                            engineering to the highest standards—because in AI,
+                            small improvements compound into massive impact.
                         </p>
                     </div>
                 </div>
@@ -144,19 +99,20 @@ export const About: React.FC = () => (
                             Our Team
                         </h2>
                         <p className="text-gray-600 leading-relaxed mb-4">
-                            We're a diverse group of designers, engineers, and
-                            problem solvers united by a common goal: creating
-                            technology that makes a difference.
+                            We are ML engineers, data scientists, and product
+                            designers united by a single mission: making AI
+                            genuinely useful for the people who use it.
                         </p>
                         <p className="text-gray-600 leading-relaxed mb-4">
-                            With backgrounds spanning multiple industries and
-                            disciplines, we bring unique perspectives to every
-                            challenge we face.
+                            Our team brings experience from leading research
+                            labs, Fortune 500 engineering organizations, and
+                            high-growth startups—giving us a rare blend of
+                            theoretical depth and practical execution.
                         </p>
                         <p className="text-gray-600 leading-relaxed">
-                            Our collaborative culture encourages innovation and
-                            creativity, ensuring that the best ideas always rise
-                            to the top.
+                            We operate with radical transparency and a bias for
+                            action. Good ideas win, regardless of where they
+                            come from.
                         </p>
                     </div>
                 </div>
@@ -166,16 +122,16 @@ export const About: React.FC = () => (
             <div className="bg-black text-white rounded-3xl p-12 mb-20">
                 <div className="grid md:grid-cols-4 gap-8 text-center">
                     <div>
-                        <div className="text-4xl font-bold mb-2">500+</div>
-                        <div className="text-gray-400">Projects Delivered</div>
+                        <div className="text-4xl font-bold mb-2">20+</div>
+                        <div className="text-gray-400">AI Products Shipped</div>
                     </div>
                     <div>
-                        <div className="text-4xl font-bold mb-2">50+</div>
-                        <div className="text-gray-400">Team Members</div>
+                        <div className="text-4xl font-bold mb-2">50M+</div>
+                        <div className="text-gray-400">Model Predictions Served</div>
                     </div>
                     <div>
-                        <div className="text-4xl font-bold mb-2">25+</div>
-                        <div className="text-gray-400">Countries Served</div>
+                        <div className="text-4xl font-bold mb-2">15+</div>
+                        <div className="text-gray-400">ML Models in Production</div>
                     </div>
                     <div>
                         <div className="text-4xl font-bold mb-2">99%</div>

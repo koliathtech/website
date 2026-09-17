@@ -1,71 +1,37 @@
-import { useState } from "react"
-import Home from "./components/LandingPage"
+import { Routes, Route } from "react-router-dom"
+import Home, { SiteFooter } from "./components/LandingPage"
 import BlogComponent from "./components/Blog"
 import Navbar from "./components/Navbar"
 import { About } from "./components/About"
 import CareersPage from "./components/Careers"
 import ServicePage from "./components/ServicePage"
+import DiabeticAppPage from "./components/DiabeticAppPage"
+import RewardPage from "./components/RewardPage"
+import ProductsPage from "./components/ProductsPage"
+import { useReferralTracker } from "./hooks/useReferralTracker"
+
 const App: React.FC = () => {
-    const [activeSection, setActiveSection] = useState("Home")
-
-    const renderSection = () => {
-        switch (activeSection) {
-            case "Home":
-                return <Home />
-            case "Blog":
-                return <BlogComponent />
-            case "About":
-                return <About></About>
-            case "Careers":
-                return <CareersPage />
-            case "Service": 
-                return <ServicePage />
-            default:
-                return <Home />
-        }
-    }
-
-    
+    useReferralTracker()
 
     return (
-        <div className="min-h-screen bg-white">
-            <Navbar
-                activeSection={activeSection}
-                onSectionChange={setActiveSection}
-            />
-            <div className="transition-opacity duration-300">
-                {renderSection()}
-            </div>
-
-            <style>{`
-        @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        
-        .animate-slideIn {
-          animation: slideIn 0.3s ease-out;
-        }
-        
-        .animate-fadeIn {
-          animation: fadeIn 0.5s ease-out;
-        }
-      `}</style>
+        <div className="min-h-screen bg-[var(--bg)] text-[var(--ink)]">
+            <Navbar />
+            <main>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/blog" element={<BlogComponent />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/careers" element={<CareersPage />} />
+                    <Route path="/service" element={<ServicePage />} />
+                    <Route path="/products" element={<ProductsPage />} />
+                    <Route path="/diabetic-app" element={<DiabeticAppPage />} />
+                    <Route path="/reward" element={<RewardPage />} />
+                    <Route path="/rewards" element={<RewardPage />} />
+                    <Route path="/referrals" element={<RewardPage />} />
+                    <Route path="*" element={<Home />} />
+                </Routes>
+            </main>
+            <SiteFooter />
         </div>
     )
 }

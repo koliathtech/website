@@ -16,51 +16,35 @@ const AppleBlog: React.FC = () => {
     const blogs: Blog[] = [
         {
             id: 1,
-            title: "Introducing Our Revolutionary Product Line",
-            content: `We're excited to announce the launch of our newest product line, designed with innovation and simplicity at its core. After months of careful development and testing, we've created something truly special.
+            title: "The Future of Generative AI in Enterprise Products",
+            content: `Generative AI is no longer just a buzzword—it's a foundational technology that is reshaping how we build and interact with enterprise software. At Koliath Technology, we're seeing a massive shift from traditional rule-based systems to intelligent, context-aware applications.
 
-Our team has worked tirelessly to ensure every detail meets our high standards. From the sleek design to the intuitive functionality, every aspect has been crafted with precision and care.
+By integrating Large Language Models (LLMs) directly into core business workflows, organizations are unlocking unprecedented efficiency. From automated customer support agents that actually understand nuance, to intelligent data analysis tools that can query databases in natural language, the possibilities are vast.
 
-This represents a new chapter in our journey, one that we're incredibly proud to share with you. The response from early testers has been overwhelmingly positive, and we can't wait for everyone to experience it.
+However, the real challenge lies not in the AI models themselves, but in the integration. How do you ensure data privacy? How do you prevent hallucinations? How do you maintain a seamless user experience?
 
-We believe in creating products that seamlessly integrate into your life, making everyday tasks simpler and more enjoyable. This launch embodies that philosophy completely.
+We believe the answer is a product-first approach to AI. It's not about bolting on a chatbot; it's about deeply understanding the user's problem and using AI as a tool to solve it more elegantly than ever before.
 
-Thank you for being part of our community. Your support and feedback continue to drive us forward, inspiring us to push boundaries and explore new possibilities.`,
-            date: "October 5, 2025",
-            readTime: "3 min read",
-            image: "https://images.unsplash.com/photo-1484788984921-03950022c9ef?w=1200&h=600&fit=crop",
+As we look to the future, the companies that will win are those that seamlessly blend human creativity with machine intelligence. We're excited to be at the forefront of this revolution, helping our partners build the next generation of AI-native products.`,
+            date: "October 15, 2025",
+            readTime: "5 min read",
+            image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&h=600&fit=crop",
         },
         {
             id: 2,
-            title: "The Future of Design: Minimalism and Function",
-            content: `Design is more than aesthetics—it's about creating experiences that feel natural and effortless. We've always believed that the best design is the one you don't notice.
+            title: "Scaling Machine Learning Architectures for the Modern Web",
+            content: `Building a proof-of-concept machine learning model is one thing; deploying it to serve millions of users in real-time is an entirely different beast. As AI products move from the lab to production, architectural decisions become critical.
 
-In today's fast-paced world, simplicity has become a luxury. We're committed to cutting through the noise and delivering products that respect your time and attention.
+One of the biggest hurdles we face is latency. When a user interacts with an AI feature, they expect the same sub-second response times they get from traditional web apps. Achieving this requires a delicate balance of model optimization, edge computing, and efficient caching strategies.
 
-Our design philosophy centers on three core principles: clarity, efficiency, and elegance. Every element serves a purpose, and every interaction is intentional.
+We've found that moving inference closer to the user—whether through edge functions or on-device processing—can drastically improve the user experience. Additionally, techniques like model quantization and pruning are essential for reducing the computational footprint without sacrificing too much accuracy.
 
-We've learned that removing complexity is often harder than adding features. It requires discipline and a deep understanding of what truly matters to our users.
+Another key consideration is the data pipeline. Real-time AI products need real-time data. Building robust, event-driven architectures ensures that our models are always acting on the most up-to-date information.
 
-Looking ahead, we're more excited than ever about the possibilities. Technology continues to evolve, but our commitment to thoughtful, user-centered design remains constant.`,
+The journey from a Jupyter notebook to a scalable, production-ready AI product is complex, but with the right architecture, it's incredibly rewarding. At Koliath Technology, we're continuously refining our approach to ensure our clients' AI solutions are as robust as they are intelligent.`,
             date: "September 28, 2025",
-            readTime: "4 min read",
-            image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=600&fit=crop",
-        },
-        {
-            id: 3,
-            title: "Building a Sustainable Tomorrow",
-            content: `Sustainability isn't just a buzzword for us—it's a responsibility we take seriously. Every decision we make considers the environmental impact for generations to come.
-
-We've implemented comprehensive recycling programs across our facilities and are constantly exploring new materials that reduce our carbon footprint without compromising quality.
-
-Our commitment extends beyond our own operations. We work closely with suppliers to ensure they meet our strict environmental standards, creating a ripple effect throughout the industry.
-
-Innovation and sustainability go hand in hand. We're investing heavily in research to develop new manufacturing processes that are both efficient and environmentally friendly.
-
-This is a journey, not a destination. While we're proud of the progress we've made, we know there's always more work to be done. Together, we can make a difference.`,
-            date: "September 15, 2025",
-            readTime: "5 min read",
-            image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200&h=600&fit=crop",
+            readTime: "6 min read",
+            image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=1200&h=600&fit=crop",
         },
     ]
 
@@ -89,10 +73,10 @@ This is a journey, not a destination. While we're proud of the progress we've ma
                                 <button
                                     key={blog.id}
                                     onClick={() => setSelectedBlog(index)}
-                                    className={`w-full text-left p-4 rounded-lg transition-all duration-200 group ${
+                                    className={`w-full text-left py-3 px-4 border-l-2 transition-all duration-200 group ${
                                         selectedBlog === index
-                                            ? "bg-black text-white"
-                                            : "hover:bg-gray-50 text-gray-700"
+                                            ? "border-blue-600 text-blue-600 bg-blue-50/50"
+                                            : "border-transparent hover:border-gray-200 text-gray-600 hover:text-gray-900"
                                     }`}
                                 >
                                     <div className="flex items-start justify-between">
@@ -100,7 +84,7 @@ This is a journey, not a destination. While we're proud of the progress we've ma
                                             <h3
                                                 className={`font-medium mb-1 line-clamp-2 ${
                                                     selectedBlog === index
-                                                        ? "text-white"
+                                                        ? "text-blue-900"
                                                         : "text-gray-900"
                                                 }`}
                                             >
@@ -109,7 +93,7 @@ This is a journey, not a destination. While we're proud of the progress we've ma
                                             <p
                                                 className={`text-sm ${
                                                     selectedBlog === index
-                                                        ? "text-gray-300"
+                                                        ? "text-blue-600/80"
                                                         : "text-gray-500"
                                                 }`}
                                             >
@@ -119,7 +103,7 @@ This is a journey, not a destination. While we're proud of the progress we've ma
                                         <ArrowRight
                                             className={`w-5 h-5 ml-2 transition-transform group-hover:translate-x-1 flex-shrink-0 ${
                                                 selectedBlog === index
-                                                    ? "text-white"
+                                                    ? "text-blue-600"
                                                     : "text-gray-400"
                                             }`}
                                         />
