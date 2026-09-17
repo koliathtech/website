@@ -7,6 +7,46 @@ The production frontend **will not build** unless `VITE_API_BASE` is a public
 `https://` origin (never localhost, never `http://`). The production backend
 **will not boot** unless `DATABASE_URL` and `APP_WEBHOOK_SECRET` are set.
 
+These pages **exist in this repo**. They are **not live on a public host until
+ops deploys** this build behind HTTPS. This runbook does not claim that
+`koliath.dev` or `koliath.in` currently serves them.
+
+## Legal URL contract (Adverts BrandConfig)
+
+Adverts `BrandConfig` defaults expect **live public HTTPS** pages at:
+
+| BrandConfig field | Default URL |
+|-------------------|-------------|
+| `TERMS_URL` | `https://koliath.dev/legal/terms` |
+| `PRIVACY_URL` | `https://koliath.dev/legal/privacy` |
+| `ACCOUNT_ERASURE_URL` | `https://koliath.dev/legal/account-erasure` |
+
+This website implements those **paths** (and short aliases):
+
+| Canonical path | Alias | Page |
+|----------------|-------|------|
+| `/legal/privacy` | `/privacy` | Privacy Policy |
+| `/legal/terms` | `/terms` | Terms of Use |
+| `/legal/account-erasure` | `/account-erasure` | Account erasure / data deletion |
+
+The static host must SPA-fallback so `https://<host>/legal/*` serves `index.html`
+(not a 404).
+
+**Host mismatch:** this repo’s company site is documented as `koliath.in`.
+Adverts defaults use host **`koliath.dev`**. Routes in the app do not create
+DNS. Pick one:
+
+1. **Point `koliath.dev` at this site** (or reverse-proxy only those three
+   `/legal/*` paths to this frontend) so the Adverts defaults resolve, **or**
+2. If the only public host is `koliath.in`, **override Adverts BrandConfig** at
+   app build time, for example:
+   - `TERMS_URL=https://koliath.in/legal/terms`
+   - `PRIVACY_URL=https://koliath.in/legal/privacy`
+   - `ACCOUNT_ERASURE_URL=https://koliath.in/legal/account-erasure`
+
+Do not ship Adverts pointing at `https://koliath.dev/legal/…` until that host
+actually serves this frontend.
+
 ## Required variables
 
 ### Frontend (build time — baked into the static bundle)
@@ -24,7 +64,7 @@ The production frontend **will not build** unless `VITE_API_BASE` is a public
 | `DATABASE_URL` | `postgres://app:CHANGE_ME@db.internal:5432/koliath` | Required in production. No default. |
 | `APP_WEBHOOK_SECRET` | `CHANGE_ME_to_a_long_random_string` | Required in production. Trusted apps send `X-Koliath-Webhook-Secret`. |
 | `GOOGLE_CLIENT_ID` | same as `VITE_GOOGLE_CLIENT_ID` | Audience for ID-token verification. |
-| `CORS_ORIGINS` | `https://koliath.in,https://www.koliath.in` | Allowlist only. |
+| `CORS_ORIGINS` | `https://koliath.in,https://www.koliath.in` | Allowlist only. Add `https://koliath.dev` if that host serves this origin. |
 | `PORT` | `3000` | Optional; platform may inject this. |
 
 Never put production passwords, webhook secrets, or live OAuth clients in git.
@@ -41,7 +81,8 @@ VITE_API_BASE=https://example.com npm run build
 ```
 
 That is a real `vite build` in production mode. The dummy origin is public
-HTTPS and is **not** a credential.
+HTTPS and is **not** a credential. CI also greps `App.tsx` so
+`/legal/privacy`, `/legal/terms`, and `/legal/account-erasure` cannot disappear.
 
 Locally, before a release:
 
@@ -73,8 +114,10 @@ Boot for real only with all three of `NODE_ENV=production`, `DATABASE_URL`, and
 
 ## Suggested topology
 
-1. TLS terminator (CDN or load balancer) for `https://koliath.in`.
-2. Static `frontend/dist` on the same host or object storage.
+1. TLS terminator (CDN or load balancer) for the public host (`koliath.in`
+   and/or `koliath.dev` — ops choice, see legal URL contract above).
+2. Static `frontend/dist` on the same host or object storage, with SPA fallback
+   for `/legal/*`.
 3. Reverse-proxy `/api`, `/health`, `/careers` to Node, **or** point
    `VITE_API_BASE` at `https://api.koliath.in` and set CORS.
 4. Postgres reachable only on a private network.
@@ -83,5 +126,6 @@ Boot for real only with all three of `NODE_ENV=production`, `DATABASE_URL`, and
 ## Privacy / tracking in production
 
 FingerprintJS and referral visit tracking run **only after** the visitor
-accepts the consent banner. Privacy Policy: `/privacy`. Terms: `/terms`.
-This is independent of the env vars above.
+accepts the consent banner. Canonical policies: `/legal/privacy`,
+`/legal/terms`, `/legal/account-erasure`. This is independent of the env vars
+above.

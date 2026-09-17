@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { useConsent } from "../lib/ConsentProvider"
+import { LEGAL_PRIVACY, LEGAL_TERMS } from "../lib/legalRoutes"
 
 export function CookieSettingsButton() {
     const { openPreferences } = useConsent()
@@ -34,11 +35,11 @@ export function ConsentBanner() {
                         We use FingerprintJS and referral visit events only after you accept. This is
                         optional: it helps attribute invites and reduce duplicate rewards. Rejecting
                         still lets you browse, sign in, and use the site. Read our{" "}
-                        <Link to="/privacy" className="underline text-[var(--ink)] hover:text-[var(--accent)]">
+                        <Link to={LEGAL_PRIVACY} className="underline text-[var(--ink)] hover:text-[var(--accent)]">
                             Privacy Policy
                         </Link>{" "}
                         and{" "}
-                        <Link to="/terms" className="underline text-[var(--ink)] hover:text-[var(--accent)]">
+                        <Link to={LEGAL_TERMS} className="underline text-[var(--ink)] hover:text-[var(--accent)]">
                             Terms
                         </Link>
                         . You can change this anytime via Cookie settings in the footer.

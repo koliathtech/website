@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { NavLink, Link } from "react-router-dom"
+import { LEGAL_PRIVACY, LEGAL_TERMS } from "../lib/legalRoutes"
 
 const Navbar: React.FC = () => {
     const [open, setOpen] = useState(false)
@@ -42,13 +43,13 @@ const Navbar: React.FC = () => {
                         ))}
                     </nav>
                     <Link
-                        to="/privacy"
+                        to={LEGAL_PRIVACY}
                         className="text-sm text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]"
                     >
                         Privacy
                     </Link>
                     <Link
-                        to="/terms"
+                        to={LEGAL_TERMS}
                         className="text-sm text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]"
                     >
                         Terms
@@ -93,6 +94,20 @@ const Navbar: React.FC = () => {
                             {section.name}
                         </NavLink>
                     ))}
+                    <Link
+                        to={LEGAL_PRIVACY}
+                        onClick={() => setOpen(false)}
+                        className="block px-3 py-3 rounded-xl text-sm text-[var(--ink)] underline underline-offset-2"
+                    >
+                        Privacy
+                    </Link>
+                    <Link
+                        to={LEGAL_TERMS}
+                        onClick={() => setOpen(false)}
+                        className="block px-3 py-3 rounded-xl text-sm text-[var(--ink)] underline underline-offset-2"
+                    >
+                        Terms
+                    </Link>
                 </div>
             )}
         </header>

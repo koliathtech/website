@@ -8,7 +8,7 @@ import ServicePage from "./components/ServicePage"
 import DiabeticAppPage from "./components/DiabeticAppPage"
 import RewardPage from "./components/RewardPage"
 import ProductsPage from "./components/ProductsPage"
-import { PrivacyPage, TermsPage } from "./components/LegalPages"
+import { PrivacyPage, TermsPage, AccountErasurePage } from "./components/LegalPages"
 import { ConsentBanner } from "./components/ConsentBanner"
 import { useReferralTracker } from "./hooks/useReferralTracker"
 import { useConsent } from "./lib/ConsentProvider"
@@ -32,8 +32,12 @@ const App: React.FC = () => {
                     <Route path="/reward" element={<RewardPage />} />
                     <Route path="/rewards" element={<RewardPage />} />
                     <Route path="/referrals" element={<RewardPage />} />
+                    <Route path="/legal/privacy" element={<PrivacyPage />} />
                     <Route path="/privacy" element={<PrivacyPage />} />
+                    <Route path="/legal/terms" element={<TermsPage />} />
                     <Route path="/terms" element={<TermsPage />} />
+                    <Route path="/legal/account-erasure" element={<AccountErasurePage />} />
+                    <Route path="/account-erasure" element={<AccountErasurePage />} />
                     <Route path="*" element={<Home />} />
                 </Routes>
             </main>

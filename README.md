@@ -16,8 +16,9 @@ Adverts Rewards, and Diabetic Buddy.
 | `/` | Company homepage |
 | `/products` | Product briefs for every Koliath app |
 | `/reward` | Google login + points dashboard + gift catalog |
-| `/privacy` | Privacy Policy (FingerprintJS, cookies, account data) |
-| `/terms` | Terms of Use |
+| `/legal/privacy` (`/privacy`) | Privacy Policy (FingerprintJS, cookies, account data) |
+| `/legal/terms` (`/terms`) | Terms of Use |
+| `/legal/account-erasure` (`/account-erasure`) | Account erasure / data deletion |
 | `/service`, `/about`, `/careers`, `/blog` | Studio pages |
 
 `/rewards` and `/referrals` redirect to the same reward experience.
@@ -92,8 +93,8 @@ CI proves a production `vite build` with dummy `VITE_API_BASE=https://example.co
 
 FingerprintJS and referral visit tracking are **off until the visitor accepts**
 the site-wide consent banner. Rejecting tracking still allows browsing and
-Google Sign-In. Policies: `/privacy`, `/terms`. Cookie settings in the footer
-re-opens the banner.
+Google Sign-In. Canonical policies: `/legal/privacy`, `/legal/terms`,
+`/legal/account-erasure`. Cookie settings in the footer re-opens the banner.
 
 ## Security practices included
 

@@ -1,5 +1,16 @@
 import type { ReactNode } from "react"
 import { Link } from "react-router-dom"
+import { LEGAL_ACCOUNT_ERASURE, LEGAL_PRIVACY, LEGAL_TERMS } from "../lib/legalRoutes"
+
+function LegalNav() {
+    return (
+        <nav className="pt-4 text-sm flex flex-wrap gap-x-4 gap-y-2" aria-label="Legal documents">
+            <Link to={LEGAL_PRIVACY}>Privacy Policy</Link>
+            <Link to={LEGAL_TERMS}>Terms of Use</Link>
+            <Link to={LEGAL_ACCOUNT_ERASURE}>Account erasure</Link>
+        </nav>
+    )
+}
 
 function LegalShell({
     title,
@@ -16,9 +27,10 @@ function LegalShell({
             <h1 className="font-display text-4xl md:text-5xl font-semibold tracking-tight mb-3">
                 {title}
             </h1>
-            <p className="text-sm text-[var(--muted)] mb-10">Last updated {updated}</p>
+            <p className="text-sm text-[var(--ink)]/60 mb-10">Last updated {updated}</p>
             <div className="space-y-8 text-[var(--ink)] leading-relaxed [&_h2]:font-semibold [&_h2]:text-xl [&_h2]:mt-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-2 [&_a]:underline [&_a]:text-[var(--accent)]">
                 {children}
+                <LegalNav />
             </div>
         </article>
     )
@@ -30,8 +42,8 @@ export function PrivacyPage() {
             <section>
                 <h2>Who we are</h2>
                 <p>
-                    Koliath Technology operates koliath.in (the company site and rewards hub for
-                    Sapient, Adverts, Diabetic Buddy, and related apps). Contact:{" "}
+                    Koliath Technology operates the company site and rewards hub for Sapient,
+                    Adverts, Diabetic Buddy, and related apps. Contact:{" "}
                     <a href="mailto:hello@koliath.in">hello@koliath.in</a>.
                 </p>
             </section>
@@ -104,13 +116,16 @@ export function PrivacyPage() {
                     Account and ledger data are kept while the rewards program operates or until
                     you ask us to delete them. Email{" "}
                     <a href="mailto:hello@koliath.in">hello@koliath.in</a> to access, correct, or
-                    delete your data. You may also withdraw tracking consent in Cookie settings.
+                    delete your data. Full erasure instructions:{" "}
+                    <Link to={LEGAL_ACCOUNT_ERASURE}>Account erasure</Link>. You may also withdraw
+                    tracking consent in Cookie settings.
                 </p>
             </section>
             <section>
-                <h2>Terms</h2>
+                <h2>Related</h2>
                 <p>
-                    Use of the site is also governed by our <Link to="/terms">Terms of Use</Link>.
+                    Use of the site is also governed by our{" "}
+                    <Link to={LEGAL_TERMS}>Terms of Use</Link>.
                 </p>
             </section>
         </LegalShell>
@@ -123,9 +138,9 @@ export function TermsPage() {
             <section>
                 <h2>Agreement</h2>
                 <p>
-                    By using koliath.in you agree to these terms and the{" "}
-                    <Link to="/privacy">Privacy Policy</Link>. If you do not agree, do not use the
-                    site or rewards program.
+                    By using this site you agree to these terms and the{" "}
+                    <Link to={LEGAL_PRIVACY}>Privacy Policy</Link>. If you do not agree, do not use
+                    the site or rewards program.
                 </p>
             </section>
             <section>
@@ -149,7 +164,9 @@ export function TermsPage() {
                 <h2>Accounts</h2>
                 <p>
                     You must use a Google account you control. You are responsible for activity
-                    under that account. We may suspend access for abuse or security reasons.
+                    under that account. We may suspend access for abuse or security reasons. You
+                    can request deletion at{" "}
+                    <Link to={LEGAL_ACCOUNT_ERASURE}>Account erasure</Link>.
                 </p>
             </section>
             <section>
@@ -171,7 +188,64 @@ export function TermsPage() {
             <section>
                 <h2>Contact</h2>
                 <p>
-                    Questions: <a href="mailto:hello@koliath.in">hello@koliath.in</a>.
+                    Questions: <a href="mailto:hello@koliath.in">hello@koliath.in</a>. Privacy:{" "}
+                    <Link to={LEGAL_PRIVACY}>Privacy Policy</Link>.
+                </p>
+            </section>
+        </LegalShell>
+    )
+}
+
+export function AccountErasurePage() {
+    return (
+        <LegalShell title="Account erasure" updated="17 September 2026">
+            <section>
+                <h2>How to request deletion</h2>
+                <p>
+                    Email{" "}
+                    <a href="mailto:hello@koliath.in?subject=Account%20erasure">hello@koliath.in</a>{" "}
+                    with the subject line <strong>Account erasure</strong>. Include the Google
+                    account email you used on <Link to="/reward">koliath.in/reward</Link> (and, if
+                    relevant, the Koliath app: Sapient, Adverts, Diabetic Buddy, or others). We
+                    may ask you to confirm control of that inbox.
+                </p>
+            </section>
+            <section>
+                <h2>What we delete</h2>
+                <p>For the website and global rewards hub, a completed request covers:</p>
+                <ul>
+                    <li>Your global Koliath profile (Google subject, email, name, avatar URL).</li>
+                    <li>Referral codes, points ledger, redemption requests, and linked-app records.</li>
+                    <li>
+                        Referral visit/click events and FingerprintJS visitorIds stored for
+                        attribution (only collected if you accepted tracking — see{" "}
+                        <Link to={LEGAL_PRIVACY}>Privacy Policy</Link>).
+                    </li>
+                    <li>Career applications submitted through this site, if you ask us to include them.</li>
+                </ul>
+                <p>
+                    We cannot delete your Google account itself, or data Google holds under its
+                    own Sign-In cookies. In-app data inside Sapient, Adverts, or Diabetic Buddy
+                    may need a separate in-app delete (or we will forward the request to that
+                    product team). Backups may retain copies until the next scheduled purge.
+                </p>
+            </section>
+            <section>
+                <h2>Timeline</h2>
+                <p>
+                    We aim to confirm receipt within <strong>5 business days</strong> and complete
+                    erasure of production records within <strong>30 days</strong> of a verified
+                    request, unless a longer period is required by law (for example pending fraud
+                    review of a redemption). You will get a short email when the production
+                    deletion is done.
+                </p>
+            </section>
+            <section>
+                <h2>Related</h2>
+                <p>
+                    Tracking consent can be withdrawn immediately via Cookie settings without
+                    deleting your account. See the <Link to={LEGAL_PRIVACY}>Privacy Policy</Link>{" "}
+                    and <Link to={LEGAL_TERMS}>Terms of Use</Link>.
                 </p>
             </section>
         </LegalShell>

@@ -33,3 +33,12 @@ test("privacy and terms routes are registered", () => {
     assert.match(app, /path="\/terms"/)
     assert.match(app, /ConsentBanner/)
 })
+
+test("Adverts BrandConfig /legal/* routes are registered in App.tsx", () => {
+    const app = readFileSync(join(srcRoot, "App.tsx"), "utf8")
+    assert.match(app, /path="\/legal\/privacy"/)
+    assert.match(app, /path="\/legal\/terms"/)
+    assert.match(app, /path="\/legal\/account-erasure"/)
+    assert.match(app, /path="\/account-erasure"/)
+    assert.match(app, /AccountErasurePage/)
+})

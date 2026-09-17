@@ -4,6 +4,7 @@ import { ProductsShowcase } from "./ProductsPage"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { CookieSettingsButton } from "./ConsentBanner"
+import { LEGAL_ACCOUNT_ERASURE, LEGAL_PRIVACY, LEGAL_TERMS } from "../lib/legalRoutes"
 
 const sectionVariants = {
     hidden: { opacity: 0, y: 40 },
@@ -105,13 +106,18 @@ export function SiteFooter() {
                         <h4 className="font-semibold text-[var(--ink)] mb-4">Legal</h4>
                         <ul className="space-y-2">
                             <li>
-                                <Link to="/privacy" className="text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]">
+                                <Link to={LEGAL_PRIVACY} className="text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]">
                                     Privacy Policy
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/terms" className="text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]">
+                                <Link to={LEGAL_TERMS} className="text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]">
                                     Terms of Use
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to={LEGAL_ACCOUNT_ERASURE} className="text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]">
+                                    Account erasure
                                 </Link>
                             </li>
                             <li>
@@ -133,11 +139,14 @@ export function SiteFooter() {
                 <div className="pt-8 border-t border-[var(--line)] text-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <p>© {new Date().getFullYear()} Koliath Technology. All rights reserved.</p>
                     <p className="flex flex-wrap gap-x-4 gap-y-1">
-                        <Link to="/privacy" className="hover:text-[var(--ink)] underline">
+                        <Link to={LEGAL_PRIVACY} className="hover:text-[var(--ink)] underline">
                             Privacy
                         </Link>
-                        <Link to="/terms" className="hover:text-[var(--ink)] underline">
+                        <Link to={LEGAL_TERMS} className="hover:text-[var(--ink)] underline">
                             Terms
+                        </Link>
+                        <Link to={LEGAL_ACCOUNT_ERASURE} className="hover:text-[var(--ink)] underline">
+                            Account erasure
                         </Link>
                         <CookieSettingsButton />
                     </p>
