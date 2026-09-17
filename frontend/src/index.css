@@ -1,0 +1,163 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent-token);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Brand surface — deep forest on parchment, not purple/cream AI defaults */
+  --bg: #f3efe6;
+  --ink: #14201c;
+  --muted: #5c6b64;
+  --line: #d7d0c3;
+  --surface: #ebe5d9;
+  --surface-deep: #ddd5c6;
+  --accent: #0f6b5c;
+  --accent-soft: #d7ebe5;
+
+  --background: var(--bg);
+  --foreground: var(--ink);
+  --card: #fffcf7;
+  --card-foreground: var(--ink);
+  --popover: #fffcf7;
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: #f7f3ea;
+  --secondary: var(--surface);
+  --secondary-foreground: var(--ink);
+  --muted-foreground: var(--muted);
+  --accent-token: var(--accent);
+  --accent-foreground: #f7f3ea;
+  --destructive: oklch(0.55 0.2 25);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--accent);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Sora", ui-sans-serif, system-ui, sans-serif;
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(ellipse 80% 50% at 10% -10%, rgba(15, 107, 92, 0.08), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 0%, rgba(180, 120, 60, 0.06), transparent);
+    min-height: 100vh;
+  }
+  .font-display {
+    font-family: "Fraunces", "Times New Roman", serif;
+  }
+}
+
+.hero-mesh {
+  background:
+    linear-gradient(160deg, #f3efe6 0%, #e7efe9 42%, #dfe8e2 100%);
+}
+
+.hero-photo {
+  background:
+    linear-gradient(145deg, rgba(20, 32, 28, 0.15), rgba(15, 107, 92, 0.35)),
+    url("https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=80")
+      center/cover;
+  box-shadow: 0 40px 80px -40px rgba(20, 32, 28, 0.55);
+  animation: heroFloat 12s ease-in-out infinite;
+}
+
+.hero-scrim {
+  background: linear-gradient(
+    90deg,
+    rgba(243, 239, 230, 0.97) 0%,
+    rgba(243, 239, 230, 0.88) 38%,
+    rgba(243, 239, 230, 0.35) 70%,
+    rgba(243, 239, 230, 0.15) 100%
+  );
+}
+
+@media (max-width: 768px) {
+  .hero-photo {
+    opacity: 0.35;
+    inset: auto 0 0 0;
+    width: 100%;
+    height: 55%;
+    top: auto;
+    right: 0;
+    border-radius: 0;
+  }
+  .hero-scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(243, 239, 230, 0.95) 35%,
+      rgba(243, 239, 230, 0.75) 70%,
+      rgba(243, 239, 230, 0.4) 100%
+    );
+  }
+}
+
+@keyframes heroFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.reward-aurora {
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 0%, rgba(15, 107, 92, 0.18), transparent 70%),
+    radial-gradient(ellipse 40% 30% at 80% 20%, rgba(180, 120, 60, 0.1), transparent 60%);
+  animation: auroraPulse 10s ease-in-out infinite;
+}
+
+@keyframes auroraPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.reward-band {
+  background:
+    linear-gradient(120deg, rgba(15, 107, 92, 0.1), transparent 50%),
+    #fffcf7;
+}
+
+.reward-page {
+  background: transparent;
+}

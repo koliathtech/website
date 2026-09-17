@@ -1,0 +1,457 @@
+import { useEffect, useState } from "react"
+import { GoogleLogin } from "@react-oauth/google"
+import { motion, AnimatePresence } from "framer-motion"
+import {
+    Gift,
+    Users,
+    Award,
+    TrendingUp,
+    Copy,
+    Star,
+    Loader2,
+    Coins,
+    LogOut,
+    ShieldCheck,
+    Smartphone,
+} from "lucide-react"
+import { Button } from "./ui/button"
+import { useAuth } from "../lib/auth"
+import {
+    fetchReferralRules,
+    fetchRewards,
+    redeemReward,
+    type ReferralRule,
+    type Reward,
+} from "../lib/api"
+
+export default function RewardPage() {
+    const { user, idToken, loading, configured, signInWithCredential, signOut, refresh } = useAuth()
+    const [rewards, setRewards] = useState<Reward[]>([])
+    const [rules, setRules] = useState<ReferralRule[]>([])
+    const [loadingRewards, setLoadingRewards] = useState(true)
+    const [redeemingId, setRedeemingId] = useState<number | null>(null)
+    const [redeemError, setRedeemError] = useState<string | null>(null)
+    const [redeemSuccess, setRedeemSuccess] = useState<string | null>(null)
+    const [copied, setCopied] = useState(false)
+    const [authError, setAuthError] = useState<string | null>(null)
+
+    useEffect(() => {
+        Promise.all([fetchRewards(), fetchReferralRules()])
+            .then(([rewardList, ruleList]) => {
+                setRewards(rewardList)
+                setRules(ruleList)
+            })
+            .catch(console.error)
+            .finally(() => setLoadingRewards(false))
+    }, [])
+
+    const handleRedeem = async (reward: Reward) => {
+        if (!idToken || !user) return
+        setRedeemingId(reward.id)
+        setRedeemError(null)
+        setRedeemSuccess(null)
+        try {
+            const result = await redeemReward(idToken, reward.id, user.email)
+            setRedeemSuccess(result.message)
+            await refresh()
+        } catch (err: unknown) {
+            setRedeemError(err instanceof Error ? err.message : "Failed to redeem")
+        } finally {
+            setRedeemingId(null)
+        }
+    }
+
+    const copyCode = async () => {
+        if (!user) return
+        const link = `${window.location.origin}/reward?ref=${user.globalCode}`
+        await navigator.clipboard.writeText(link)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+    }
+
+    const progressPct = (() => {
+        if (!user || rewards.length === 0) return 0
+        const targets = [...new Set(rewards.map((r) => r.points_cost))].sort((a, b) => a - b)
+        const next = targets.find((t) => t > user.pointsAvailable) ?? targets[targets.length - 1] ?? 1
+        return Math.min(100, Math.round((user.pointsAvailable / Math.max(next, 1)) * 100))
+    })()
+
+    return (
+        <div className="reward-page min-h-screen text-[var(--ink)] pb-24">
+            <section className="relative pt-28 pb-16 px-6 overflow-hidden">
+                <div className="absolute inset-0 reward-aurora pointer-events-none" />
+                <div className="max-w-4xl mx-auto text-center relative z-10">
+                    <motion.p
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-sm tracking-[0.2em] uppercase text-[var(--accent)] mb-4"
+                    >
+                        Koliath Rewards
+                    </motion.p>
+                    <motion.h1
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.05 }}
+                        className="font-display text-4xl md:text-6xl font-semibold tracking-tight mb-5"
+                    >
+                        One account.
+                        <br />
+                        <span className="text-[var(--accent)]">Rewards across every app.</span>
+                    </motion.h1>
+                    <motion.p
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="text-lg text-[var(--muted)] max-w-2xl mx-auto mb-10 leading-relaxed"
+                    >
+                        Sign in with Google. Share your code. Earn separately when friends
+                        qualify in Sapient, Adverts, Diabetic Buddy, and more — under clear
+                        per-app rules.
+                    </motion.p>
+
+                    {!user && (
+                        <div className="flex flex-col items-center gap-4">
+                            {!configured ? (
+                                <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 max-w-md">
+                                    Set <code className="font-mono">VITE_GOOGLE_CLIENT_ID</code> to
+                                    enable Google Sign-In.
+                                </p>
+                            ) : loading ? (
+                                <Loader2 className="w-8 h-8 animate-spin text-[var(--accent)]" />
+                            ) : (
+                                <div className="rounded-2xl overflow-hidden shadow-lg">
+                                    <GoogleLogin
+                                        onSuccess={async (res) => {
+                                            if (!res.credential) return
+                                            setAuthError(null)
+                                            try {
+                                                await signInWithCredential(res.credential)
+                                            } catch (e) {
+                                                setAuthError(
+                                                    e instanceof Error
+                                                        ? e.message
+                                                        : "Sign-in failed"
+                                                )
+                                            }
+                                        }}
+                                        onError={() => setAuthError("Google Sign-In failed")}
+                                        theme="filled_black"
+                                        shape="pill"
+                                        size="large"
+                                        text="continue_with"
+                                        useOneTap={false}
+                                    />
+                                </div>
+                            )}
+                            {authError && (
+                                <p className="text-sm text-red-600">{authError}</p>
+                            )}
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            <AnimatePresence>
+                {user && (
+                    <motion.section
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="px-6 mb-16"
+                    >
+                        <div className="max-w-5xl mx-auto rounded-[2rem] border border-[var(--line)] bg-white/80 backdrop-blur-md p-8 shadow-[0_20px_60px_-30px_rgba(15,40,35,0.35)]">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                                <div className="flex items-center gap-4">
+                                    {user.pictureUrl ? (
+                                        <img
+                                            src={user.pictureUrl}
+                                            alt=""
+                                            className="w-14 h-14 rounded-full object-cover ring-2 ring-[var(--accent)]/30"
+                                            referrerPolicy="no-referrer"
+                                        />
+                                    ) : (
+                                        <div className="w-14 h-14 rounded-full bg-[var(--accent-soft)]" />
+                                    )}
+                                    <div>
+                                        <h2 className="text-xl font-semibold">{user.displayName}</h2>
+                                        <p className="text-sm text-[var(--muted)]">{user.email}</p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-wrap gap-2">
+                                    <Button
+                                        variant="outline"
+                                        className="rounded-full"
+                                        onClick={() => void copyCode()}
+                                    >
+                                        <Copy className="w-4 h-4 mr-2" />
+                                        {copied ? "Copied" : "Copy invite link"}
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        className="rounded-full"
+                                        onClick={signOut}
+                                    >
+                                        <LogOut className="w-4 h-4 mr-2" />
+                                        Sign out
+                                    </Button>
+                                </div>
+                            </div>
+
+                            <div className="mb-8 p-5 rounded-2xl bg-[var(--surface)] border border-[var(--line)]">
+                                <p className="text-xs uppercase tracking-wider text-[var(--muted)] mb-2">
+                                    Your global code
+                                </p>
+                                <p className="font-mono text-3xl font-semibold tracking-widest text-[var(--ink)]">
+                                    {user.globalCode}
+                                </p>
+                                <p className="text-sm text-[var(--muted)] mt-2">
+                                    Use the same Google account in each Koliath app to link
+                                    rewards automatically.
+                                </p>
+                            </div>
+
+                            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                                {[
+                                    {
+                                        icon: <Coins className="w-5 h-5 text-amber-500" />,
+                                        label: "Available",
+                                        value: user.pointsAvailable,
+                                    },
+                                    {
+                                        icon: <Users className="w-5 h-5" />,
+                                        label: "Referrals",
+                                        value: user.totalReferrals,
+                                    },
+                                    {
+                                        icon: <TrendingUp className="w-5 h-5 text-[var(--accent)]" />,
+                                        label: "Pending",
+                                        value: user.pendingReferrals,
+                                    },
+                                    {
+                                        icon: <Award className="w-5 h-5 text-emerald-600" />,
+                                        label: "Confirmed",
+                                        value: user.confirmedReferrals,
+                                    },
+                                ].map((card) => (
+                                    <div
+                                        key={card.label}
+                                        className="rounded-2xl border border-[var(--line)] bg-white p-5"
+                                    >
+                                        <div className="flex items-center gap-2 text-[var(--muted)] text-sm mb-2">
+                                            {card.icon}
+                                            {card.label}
+                                        </div>
+                                        <div className="text-3xl font-semibold">{card.value}</div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="mb-2 flex justify-between text-sm">
+                                <span className="text-[var(--muted)]">Toward next reward</span>
+                                <span className="font-medium text-[var(--accent)]">
+                                    {user.pointsAvailable} pts
+                                </span>
+                            </div>
+                            <div className="h-2.5 rounded-full bg-[var(--surface)] overflow-hidden mb-8">
+                                <motion.div
+                                    initial={{ width: 0 }}
+                                    animate={{ width: `${progressPct}%` }}
+                                    className="h-full rounded-full bg-gradient-to-r from-[var(--accent)] to-teal-400"
+                                />
+                            </div>
+
+                            {user.linkedApps.length > 0 && (
+                                <div className="mb-6">
+                                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                                        <Smartphone className="w-4 h-4" /> Linked apps
+                                    </h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {user.linkedApps.map((app) => (
+                                            <span
+                                                key={`${app.sourceApp}-${app.appUid}`}
+                                                className="text-xs px-3 py-1.5 rounded-full bg-[var(--accent-soft)] text-[var(--ink)] border border-[var(--line)]"
+                                            >
+                                                {app.sourceApp}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {redeemError && (
+                                <p className="text-sm text-red-600 mb-2">{redeemError}</p>
+                            )}
+                            {redeemSuccess && (
+                                <p className="text-sm text-emerald-700 mb-2">{redeemSuccess}</p>
+                            )}
+                        </div>
+                    </motion.section>
+                )}
+            </AnimatePresence>
+
+            <section className="px-6 py-12">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-12">
+                        <ShieldCheck className="w-10 h-10 text-[var(--accent)] mx-auto mb-4" />
+                        <h2 className="font-display text-3xl md:text-4xl font-semibold mb-3">
+                            Referral guidelines
+                        </h2>
+                        <p className="text-[var(--muted)] max-w-2xl mx-auto">
+                            Points are earned per app, only when the referred person meets that
+                            product&apos;s rule — never for a bare install alone.
+                        </p>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-6">
+                        {(rules.length
+                            ? rules
+                            : [
+                                  {
+                                      app: "sapient",
+                                      label: "Sapient",
+                                      description:
+                                          "Download + one full day of genuine use (24 hours).",
+                                      confirmOn: "day_active",
+                                      points: 100,
+                                  },
+                                  {
+                                      app: "adverts",
+                                      label: "Adverts",
+                                      description:
+                                          "Download + successful purchase (purchase wiring coming soon).",
+                                      confirmOn: "purchase",
+                                      points: 100,
+                                  },
+                              ]
+                        ).map((rule, i) => (
+                            <motion.div
+                                key={rule.app}
+                                initial={{ opacity: 0, y: 16 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.05 }}
+                                className="rounded-3xl border border-[var(--line)] bg-white/90 p-7"
+                            >
+                                <div className="flex items-start justify-between gap-3 mb-3">
+                                    <h3 className="text-xl font-semibold">{rule.label}</h3>
+                                    <span className="text-xs font-mono px-2.5 py-1 rounded-full bg-[var(--surface)] text-[var(--muted)]">
+                                        {rule.confirmOn}
+                                    </span>
+                                </div>
+                                <p className="text-[var(--muted)] leading-relaxed mb-4">
+                                    {rule.description}
+                                </p>
+                                <p className="text-sm font-medium text-[var(--accent)]">
+                                    +{rule.points} points when confirmed
+                                </p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            <section className="px-6 py-12">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-12">
+                        <h2 className="font-display text-3xl font-semibold mb-3">Gift catalog</h2>
+                        <p className="text-[var(--muted)]">
+                            Redeem confirmed points for vouchers and merch
+                        </p>
+                    </div>
+                    {loadingRewards ? (
+                        <div className="flex justify-center py-16">
+                            <Loader2 className="w-8 h-8 animate-spin text-[var(--accent)]" />
+                        </div>
+                    ) : (
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {rewards.map((reward, i) => {
+                                const canRedeem =
+                                    !!user && user.pointsAvailable >= reward.points_cost
+                                return (
+                                    <motion.div
+                                        key={reward.id}
+                                        initial={{ opacity: 0, y: 16 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: i * 0.06 }}
+                                        className="rounded-[1.75rem] border border-[var(--line)] bg-white overflow-hidden flex flex-col"
+                                    >
+                                        <div className="h-36 bg-[var(--surface)] flex items-center justify-center relative">
+                                            <span className="absolute top-4 left-4 text-xs px-2.5 py-1 rounded-full bg-white border border-[var(--line)]">
+                                                {reward.category}
+                                            </span>
+                                            <Gift className="w-12 h-12 text-[var(--accent)]/40" />
+                                        </div>
+                                        <div className="p-6 flex-1 flex flex-col">
+                                            <h3 className="text-lg font-semibold mb-4 flex-1">
+                                                {reward.title}
+                                            </h3>
+                                            <div className="flex items-center gap-2 text-sm text-[var(--muted)] mb-4">
+                                                <Coins className="w-4 h-4 text-amber-500" />
+                                                {reward.points_cost} points
+                                            </div>
+                                            <Button
+                                                disabled={!canRedeem || redeemingId === reward.id}
+                                                onClick={() => void handleRedeem(reward)}
+                                                className="w-full rounded-xl h-12"
+                                            >
+                                                {redeemingId === reward.id ? (
+                                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                                ) : canRedeem ? (
+                                                    "Redeem"
+                                                ) : user ? (
+                                                    "Not enough points"
+                                                ) : (
+                                                    "Sign in to redeem"
+                                                )}
+                                            </Button>
+                                        </div>
+                                    </motion.div>
+                                )
+                            })}
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            <section className="px-6 py-16">
+                <div className="max-w-5xl mx-auto text-center">
+                    <Star className="w-10 h-10 text-amber-400 mx-auto mb-5" />
+                    <h2 className="font-display text-3xl font-semibold mb-10">How it works</h2>
+                    <div className="grid md:grid-cols-3 gap-6 text-left">
+                        {[
+                            {
+                                step: "01",
+                                title: "Sign in once",
+                                text: "Google login on koliath.in/reward creates your global Koliath identity and referral code.",
+                            },
+                            {
+                                step: "02",
+                                title: "Share per app",
+                                text: "Friends use your code when they join Sapient, Adverts, Diabetic Buddy, or other Koliath apps.",
+                            },
+                            {
+                                step: "03",
+                                title: "Qualify & redeem",
+                                text: "Points unlock only after each app’s rule is met. Redeem here for gift cards.",
+                            },
+                        ].map((item) => (
+                            <div
+                                key={item.step}
+                                className="rounded-3xl border border-[var(--line)] bg-white/80 p-7 relative overflow-hidden"
+                            >
+                                <span className="absolute top-4 right-5 text-5xl font-display text-[var(--surface-deep)] select-none">
+                                    {item.step}
+                                </span>
+                                <h3 className="text-lg font-semibold mb-3 relative z-10">
+                                    {item.title}
+                                </h3>
+                                <p className="text-[var(--muted)] leading-relaxed relative z-10">
+                                    {item.text}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        </div>
+    )
+}
