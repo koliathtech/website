@@ -19,6 +19,18 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - name: Forbid hardcoded localhost API bases in frontend/src
         run: node scripts/guard-no-localhost.mjs
+      - name: Require /legal/privacy /legal/terms /legal/account-erasure in App.tsx
+        run: |
+          set -e
+          APP=src/App.tsx
+          for route in /legal/privacy /legal/terms /legal/account-erasure; do
+            if ! grep -F -- "$route" "$APP"; then
+              echo "FAIL: $APP does not contain route $route" >&2
+              exit 1
+            fi
+            echo "OK: $APP contains $route"
+          done
+          node scripts/guard-legal-routes.mjs
       - name: API origin resolver tests
         run: node --experimental-strip-types --test scripts/resolve-api-root.test.ts
       - name: Consent and FingerprintJS gating tests

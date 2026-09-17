@@ -9,9 +9,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "guard:no-localhost": "node scripts/guard-no-localhost.mjs",
+    "guard:legal-routes": "node scripts/guard-legal-routes.mjs",
     "test:api-config": "node --experimental-strip-types --test scripts/resolve-api-root.test.ts",
     "test:consent": "node --experimental-strip-types --test scripts/consent-fingerprint.test.ts",
-    "prebuild": "npm run guard:no-localhost && npm run test:api-config && npm run test:consent"
+    "prebuild": "npm run guard:no-localhost && npm run guard:legal-routes && npm run test:api-config && npm run test:consent"
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^5.2.0",

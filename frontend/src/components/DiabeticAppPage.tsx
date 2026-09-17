@@ -3,6 +3,8 @@ import { Button } from "./ui/button"
 import { Shield, Zap, Activity, Brain, Smartphone, Database } from "lucide-react"
 import { useReferralTracker } from "../hooks/useReferralTracker"
 import { handleAppDownload } from "../lib/deepLinking"
+import { Link } from "react-router-dom"
+import { LEGAL_ACCOUNT_ERASURE, LEGAL_PRIVACY, LEGAL_TERMS } from "../lib/legalRoutes"
 
 const features = [
     {
@@ -153,7 +155,20 @@ export default function DiabeticAppPage() {
 
             {/* Footer Placeholder for App Page */}
             <footer className="py-12 border-t border-slate-800 text-center text-slate-500 text-sm">
-                © 2025 Koliath Technology. All health data is encrypted and handled according to HIPAA standards.
+                <p className="mb-3">
+                    © {new Date().getFullYear()} Koliath Technology. All health data is encrypted and handled according to HIPAA standards.
+                </p>
+                <p className="flex flex-wrap justify-center gap-x-4 gap-y-1">
+                    <Link to={LEGAL_PRIVACY} className="text-slate-300 underline">
+                        Privacy
+                    </Link>
+                    <Link to={LEGAL_TERMS} className="text-slate-300 underline">
+                        Terms
+                    </Link>
+                    <Link to={LEGAL_ACCOUNT_ERASURE} className="text-slate-300 underline">
+                        Account erasure
+                    </Link>
+                </p>
             </footer>
         </div>
     )

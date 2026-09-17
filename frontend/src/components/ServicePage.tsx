@@ -1,5 +1,7 @@
 import React, { useState } from "react"
 import { Brain, Zap, Smartphone, Database, Shield, BarChart2 } from "lucide-react"
+import { Link } from "react-router-dom"
+import { LEGAL_ACCOUNT_ERASURE, LEGAL_PRIVACY, LEGAL_TERMS } from "../lib/legalRoutes"
 
 interface Service {
     id: number
@@ -164,8 +166,19 @@ const ServicesPage: React.FC = () => {
 
             {/* Footer */}
             <footer className="border-t border-sky-950 py-8 text-center">
-                <p className="text-gray-400 text-sm">
-                    ©️ 2025 Koliath Technology. All rights reserved.
+                <p className="text-gray-400 text-sm mb-3">
+                    ©️ {new Date().getFullYear()} Koliath Technology. All rights reserved.
+                </p>
+                <p className="text-sm flex flex-wrap justify-center gap-x-4 gap-y-1">
+                    <Link to={LEGAL_PRIVACY} className="text-gray-300 underline">
+                        Privacy
+                    </Link>
+                    <Link to={LEGAL_TERMS} className="text-gray-300 underline">
+                        Terms
+                    </Link>
+                    <Link to={LEGAL_ACCOUNT_ERASURE} className="text-gray-300 underline">
+                        Account erasure
+                    </Link>
                 </p>
             </footer>
         </div>

@@ -104,6 +104,7 @@ export function SiteFooter() {
                     </div>
                     <div>
                         <h4 className="font-semibold text-[var(--ink)] mb-4">Legal</h4>
+                        {/* /legal/privacy /legal/terms /legal/account-erasure */}
                         <ul className="space-y-2">
                             <li>
                                 <Link to={LEGAL_PRIVACY} className="text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]">

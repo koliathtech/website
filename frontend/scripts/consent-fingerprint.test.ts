@@ -4,6 +4,11 @@ import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
 import { test } from "node:test"
 import { parseTrackingConsent } from "../src/lib/consent.ts"
+import {
+    LEGAL_ACCOUNT_ERASURE,
+    LEGAL_PRIVACY,
+    LEGAL_TERMS,
+} from "../src/lib/legalRoutes.ts"
 
 const srcRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "src")
 
@@ -32,6 +37,12 @@ test("privacy and terms routes are registered", () => {
     assert.match(app, /path="\/privacy"/)
     assert.match(app, /path="\/terms"/)
     assert.match(app, /ConsentBanner/)
+})
+
+test("legalRoutes constants match Adverts BrandConfig paths", () => {
+    assert.equal(LEGAL_PRIVACY, "/legal/privacy")
+    assert.equal(LEGAL_TERMS, "/legal/terms")
+    assert.equal(LEGAL_ACCOUNT_ERASURE, "/legal/account-erasure")
 })
 
 test("Adverts BrandConfig /legal/* routes are registered in App.tsx", () => {
