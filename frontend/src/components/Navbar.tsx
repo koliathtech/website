@@ -25,49 +25,62 @@ const Navbar: React.FC = () => {
                     Koliath
                 </Link>
 
-                <nav className="hidden md:flex items-center gap-1">
-                    {sections.map((section) => (
-                        <NavLink
-                            key={section.name}
-                            to={section.path}
-                            className={({ isActive }) =>
-                                `px-3.5 py-2 text-sm transition-colors rounded-full ${
-                                    isActive
-                                        ? "text-[var(--ink)] bg-black/[0.04]"
-                                        : "text-[var(--muted)] hover:text-[var(--ink)]"
-                                }`
-                            }
-                        >
-                            {section.name}
-                        </NavLink>
-                    ))}
+                <div className="flex items-center gap-2 sm:gap-3">
+                    <nav className="hidden lg:flex items-center gap-1">
+                        {sections.map((section) => (
+                            <NavLink
+                                key={section.name}
+                                to={section.path}
+                                className={({ isActive }) =>
+                                    `px-3 py-2 text-sm transition-colors rounded-full ${
+                                        isActive
+                                            ? "text-[var(--ink)] bg-black/[0.04]"
+                                            : "text-[var(--ink)]/70 hover:text-[var(--ink)]"
+                                    }`
+                                }
+                            >
+                                {section.name}
+                            </NavLink>
+                        ))}
+                    </nav>
+                    <Link
+                        to="/privacy"
+                        className="text-sm text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]"
+                    >
+                        Privacy
+                    </Link>
+                    <Link
+                        to="/terms"
+                        className="text-sm text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]"
+                    >
+                        Terms
+                    </Link>
                     <Link
                         to="/reward"
-                        className="ml-3 text-sm px-4 py-2 rounded-full bg-[var(--ink)] text-white hover:opacity-90 transition-opacity"
+                        className="text-sm px-4 py-2 rounded-full bg-[var(--ink)] text-white hover:opacity-90 transition-opacity"
                     >
                         Sign in
                     </Link>
-                </nav>
-
-                <button
-                    type="button"
-                    className="md:hidden p-2 text-[var(--ink)]"
-                    aria-label="Menu"
-                    onClick={() => setOpen((v) => !v)}
-                >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d={open ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-                        />
-                    </svg>
-                </button>
+                    <button
+                        type="button"
+                        className="lg:hidden p-2 text-[var(--ink)]"
+                        aria-label="Menu"
+                        onClick={() => setOpen((v) => !v)}
+                    >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d={open ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+                            />
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             {open && (
-                <div className="md:hidden border-t border-[var(--line)] bg-[var(--bg)] px-6 py-4 space-y-1">
+                <div className="lg:hidden border-t border-[var(--line)] bg-[var(--bg)] px-6 py-4 space-y-1">
                     {sections.map((section) => (
                         <NavLink
                             key={section.name}
@@ -75,7 +88,7 @@ const Navbar: React.FC = () => {
                             onClick={() => setOpen(false)}
                             className={({ isActive }) =>
                                 `block px-3 py-3 rounded-xl text-sm ${
-                                    isActive ? "bg-black/[0.04] text-[var(--ink)]" : "text-[var(--muted)]"
+                                    isActive ? "bg-black/[0.04] text-[var(--ink)]" : "text-[var(--ink)]/80"
                                 }`
                             }
                         >

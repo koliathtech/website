@@ -11,9 +11,11 @@ import ProductsPage from "./components/ProductsPage"
 import { PrivacyPage, TermsPage } from "./components/LegalPages"
 import { ConsentBanner } from "./components/ConsentBanner"
 import { useReferralTracker } from "./hooks/useReferralTracker"
+import { useConsent } from "./lib/ConsentProvider"
 
 const App: React.FC = () => {
     useReferralTracker()
+    const { bannerVisible } = useConsent()
 
     return (
         <div className="min-h-screen bg-[var(--bg)] text-[var(--ink)]">
@@ -36,6 +38,7 @@ const App: React.FC = () => {
                 </Routes>
             </main>
             <SiteFooter />
+            {bannerVisible ? <div className="h-56 shrink-0" aria-hidden="true" /> : null}
             <ConsentBanner />
         </div>
     )

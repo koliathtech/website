@@ -57,7 +57,7 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
     )
 
     useEffect(() => {
-        document.body.style.paddingBottom = bannerVisible ? "13rem" : ""
+        document.body.style.paddingBottom = bannerVisible ? "18rem" : ""
         return () => {
             document.body.style.paddingBottom = ""
         }

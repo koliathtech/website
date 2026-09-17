@@ -64,10 +64,10 @@ export default function Home() {
 
 export function SiteFooter() {
     return (
-        <footer className="border-t border-[var(--line)] bg-[var(--surface)] text-[var(--muted)]">
+        <footer className="border-t border-[var(--line)] bg-[var(--surface)] text-[var(--muted)] pb-28">
             <div className="max-w-6xl mx-auto py-16 px-6">
                 <div className="grid md:grid-cols-4 gap-12 mb-12">
-                    <div className="col-span-2">
+                    <div className="md:col-span-2">
                         <h3 className="font-display text-2xl font-semibold text-[var(--ink)] mb-4">
                             Koliath
                         </h3>
@@ -105,12 +105,12 @@ export function SiteFooter() {
                         <h4 className="font-semibold text-[var(--ink)] mb-4">Legal</h4>
                         <ul className="space-y-2">
                             <li>
-                                <Link to="/privacy" className="hover:text-[var(--ink)]">
+                                <Link to="/privacy" className="text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]">
                                     Privacy Policy
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/terms" className="hover:text-[var(--ink)]">
+                                <Link to="/terms" className="text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]">
                                     Terms of Use
                                 </Link>
                             </li>
@@ -139,7 +139,7 @@ export function SiteFooter() {
                         <Link to="/terms" className="hover:text-[var(--ink)] underline">
                             Terms
                         </Link>
-                        <CookieSettingsButton underline />
+                        <CookieSettingsButton />
                     </p>
                 </div>
             </div>

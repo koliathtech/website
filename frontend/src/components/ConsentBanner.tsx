@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom"
 import { useConsent } from "../lib/ConsentProvider"
 
-export function CookieSettingsButton({ underline = false }: { underline?: boolean }) {
+export function CookieSettingsButton() {
     const { openPreferences } = useConsent()
     return (
         <button
             type="button"
             onClick={openPreferences}
-            className={`hover:text-[var(--ink)] text-left ${underline ? "underline" : ""}`}
+            className="inline bg-transparent p-0 border-0 shadow-none font-sans text-sm leading-normal text-[var(--ink)] hover:text-[var(--accent)] cursor-pointer underline underline-offset-2"
         >
             Cookie settings
         </button>
@@ -30,7 +30,7 @@ export function ConsentBanner() {
                     <h2 id="cookie-consent-title" className="font-semibold text-[var(--ink)] mb-1.5">
                         Tracking & device fingerprint
                     </h2>
-                    <p id="cookie-consent-desc" className="text-sm text-[var(--muted)] leading-relaxed">
+            <p id="cookie-consent-desc" className="text-sm text-[var(--ink)]/80 leading-relaxed">
                         We use FingerprintJS and referral visit events only after you accept. This is
                         optional: it helps attribute invites and reduce duplicate rewards. Rejecting
                         still lets you browse, sign in, and use the site. Read our{" "}
