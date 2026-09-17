@@ -1,4 +1,4 @@
-const API_ROOT = import.meta.env.VITE_API_BASE?.replace(/\/$/, "") || ""
+import { apiUrl } from "./apiBase"
 
 function authHeaders(token?: string | null): HeadersInit {
     const headers: Record<string, string> = {
@@ -71,7 +71,7 @@ export interface Reward {
 }
 
 export async function exchangeGoogleToken(idToken: string): Promise<DashboardUser> {
-    const response = await fetch(`${API_ROOT}/api/auth/google`, {
+    const response = await fetch(apiUrl("/api/auth/google"), {
         method: "POST",
         headers: authHeaders(),
         body: JSON.stringify({ idToken }),
@@ -81,25 +81,25 @@ export async function exchangeGoogleToken(idToken: string): Promise<DashboardUse
 }
 
 export async function fetchMe(token: string): Promise<DashboardUser> {
-    const response = await fetch(`${API_ROOT}/api/me`, {
+    const response = await fetch(apiUrl("/api/me"), {
         headers: authHeaders(token),
     })
     return parseJson<DashboardUser>(response)
 }
 
 export async function fetchReferralRules(): Promise<ReferralRule[]> {
-    const response = await fetch(`${API_ROOT}/api/referral-rules`)
+    const response = await fetch(apiUrl("/api/referral-rules"))
     const data = await parseJson<{ rules: ReferralRule[] }>(response)
     return data.rules
 }
 
 export async function fetchRewards(): Promise<Reward[]> {
-    const response = await fetch(`${API_ROOT}/api/referrals/rewards`)
+    const response = await fetch(apiUrl("/api/referrals/rewards"))
     return parseJson<Reward[]>(response)
 }
 
 export async function redeemReward(token: string, rewardId: number, contactEmail?: string) {
-    const response = await fetch(`${API_ROOT}/api/referrals/redeem`, {
+    const response = await fetch(apiUrl("/api/referrals/redeem"), {
         method: "POST",
         headers: authHeaders(token),
         body: JSON.stringify({ rewardId, contactEmail }),

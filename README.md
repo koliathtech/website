@@ -62,6 +62,7 @@ npm run dev
 cd frontend
 cp .env.example .env
 # set VITE_GOOGLE_CLIENT_ID to the same OAuth Web client ID
+# leave VITE_API_BASE empty so Vite proxies /api to the local backend
 npm install
 npm run dev
 ```
@@ -74,11 +75,11 @@ npm run dev
 
 ## Production (koliath.in)
 
-1. Build frontend: `cd frontend && npm run build` → serve `dist/` on the domain.
-2. Run backend behind HTTPS (Node, Docker, or Cloud Run) with `NODE_ENV=production`.
-3. Set env vars from `.env.example` files; never commit secrets.
-4. Point `CORS_ORIGINS` at `https://koliath.in,https://www.koliath.in`.
-5. Optionally set `VITE_API_BASE=https://api.koliath.in` if API is on a subdomain; otherwise reverse-proxy `/api` to the Node service.
+1. Set `VITE_API_BASE` to an **https://** origin (for example `https://koliath.in` when `/api` is reverse-proxied on the same host, or `https://api.koliath.in` for a subdomain). Production builds fail if this is missing, `http://`, or loopback.
+2. Build frontend: `cd frontend && npm run build` → serve `dist/` on the domain.
+3. Run backend behind HTTPS (Node, Docker, or Cloud Run) with `NODE_ENV=production`.
+4. Set remaining env vars from `.env.example` files; never commit `.env` files or secrets.
+5. Point `CORS_ORIGINS` at `https://koliath.in,https://www.koliath.in`.
 
 ## Security practices included
 
@@ -87,6 +88,7 @@ npm run dev
 - Redeem / stats require authenticated ownership of the global account
 - Qualification and register endpoints require webhook secret in production
 - Env-based DB URL (no hardcoded production credentials)
+- Frontend API origin from `VITE_API_BASE` (HTTPS required in production; no localhost fallback)
 - Parameterized SQL only
 
 ## Linking mobile apps

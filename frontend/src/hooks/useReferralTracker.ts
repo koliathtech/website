@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import fpPromise from '@fingerprintjs/fingerprintjs';
+import { apiUrl } from '../lib/apiBase';
 
 const REFERRAL_KEY = 'koliath_ref_code';
-const API_BASE = 'http://localhost:3000/api';
 
 export function useReferralTracker() {
   const [refCode, setRefCode] = useState<string | null>(null);
@@ -25,14 +25,14 @@ export function useReferralTracker() {
       if (urlCode) {
         // Validate URL Code
         try {
-          const res = await fetch(`${API_BASE}/referrals/validate?code=${urlCode}`);
+          const res = await fetch(apiUrl(`/api/referrals/validate?code=${encodeURIComponent(urlCode)}`));
           const data = await res.json();
           if (data.success) {
             localStorage.setItem(REFERRAL_KEY, urlCode);
             setRefCode(urlCode);
             
             // Track visit
-            await fetch(`${API_BASE}/referrals/track`, {
+            await fetch(apiUrl("/api/referrals/track"), {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -56,7 +56,7 @@ export function useReferralTracker() {
   const trackEvent = async (eventType: 'click' | 'visit' | 'install_attempt') => {
     if (!refCode || !deviceId) return;
     try {
-      await fetch(`${API_BASE}/referrals/track`, {
+      await fetch(apiUrl("/api/referrals/track"), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
